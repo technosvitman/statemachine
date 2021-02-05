@@ -1,7 +1,7 @@
 /**
   * @file : statemachine.c
   * @author : Adrien GIRARD
-  * @brief :tate machine implementation
+  * @brief :state machine implementation
  */
 #include <stdio.h>
 #include <stdlib.h>
