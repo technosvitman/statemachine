@@ -80,8 +80,16 @@ typedef struct
     /**
       * states composing the machine
       */
-    statemachine_state_t * states; 
+    const statemachine_state_t * states; 
 }statemachine_t;
+
+void statemachine_init(statemachine_t * machine, statemachine_state_id_t first_state, const statemachine_state_t * states);
+
+void statemachine_set_golbal(statemachine_t * machine, statemachine_enter_clbck_t on_enter, statemachine_do_clbck_t do_job
+							statemachine_exit_clbck_t on_exit);
+
+void statemachine_start(statemachine_t * machine);
+
 
 void statemachine_set_state(statemachine_t * machine, statemachine_state_id_t new_state);
 

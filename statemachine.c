@@ -9,6 +9,58 @@
 #include "statemachine.h"
 
 /**
+  * @brief initialize state machine
+  * @param machine state machine to change
+  * @param first_state the entry point state
+  * @param states states definitions
+  */
+void statemachine_init(statemachine_t * machine, statemachine_state_id_t first_state, const statemachine_state_t * states)
+{
+	machine->new_state = first_state;
+	machine->current_state = first_state;
+	machine->current_state = first_state;
+	machine->global_on_enter = NULL;
+	machine->global_do_job = NULL;
+	machine->global_on_exit = NULL;
+	machine->states = states;
+}
+
+/**
+  * @brief set global states actions
+  * @param machine state machine to change
+  * @param on_enter global on enter action
+  * @param do_job global do job action
+  * @param on_exit global on exit action
+  */
+void statemachine_set_golbal(statemachine_t * machine, statemachine_enter_clbck_t on_enter, statemachine_do_clbck_t do_job
+							statemachine_exit_clbck_t on_exit);
+{
+	machine->global_on_enter = on_enter;
+	machine->global_do_job = do_job;
+	machine->global_on_exit = on_exit;
+}
+
+/**
+ * @brief start state machine
+ * @note execute global_on_enter and current_state on_enter
+ * @warning should be called before any "compute" call
+ */
+void statemachine_start(statemachine_t * machine)
+{    
+	if(machine->global_on_enter != NULL)
+	{
+		machine->global_on_enter();
+	}
+
+	statemachine_state_t * state = &(machine->states[machine->current_state]);
+
+	if(state->on_enter != NULL)
+	{
+		state->on_enter();
+	}	
+}
+
+/**
   * @brief set next state
   * @param machine state machine to change
   * @param new_state the new state id
@@ -58,12 +110,12 @@ void statemachine_compute(statemachine_t * machine, statemachine_event_id_t even
     /* state change so compute */
     if( machine->new_state != machine->current_state ) 
     {
-    	if(machine->global_on_exit != NULL)
-    	{
-      	    machine->global_on_exit();
+        if(machine->global_on_exit != NULL)
+        {
+            machine->global_on_exit();
         }
-    	
-	if( state->on_exit != NULL )
+        
+        if( state->on_exit != NULL )
         {
             state->on_exit();
         }
@@ -80,7 +132,7 @@ void statemachine_compute(statemachine_t * machine, statemachine_event_id_t even
             state->on_enter();
         }
 
-    	machine->current_state = machine->new_state;
+        machine->current_state = machine->new_state;
     }
 }
 
