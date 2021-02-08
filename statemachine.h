@@ -6,6 +6,7 @@
 #ifndef STATE_MACHINE_H
 #   define STATE_MACHINE_H
 
+
 /**
  * @brief build state on enter callback name
  * @param state_name the state name
@@ -60,6 +61,86 @@
  * @note to be used in do_job callback
  */
 #define statemachineNO_DATA()                  ((void)data)
+
+/**
+ * @brief state declaration helper with Enter/Do/Exit callbacks
+ */
+#define statemachineS_IDO(state)  {  \
+											statemachineON_ENTER(state), \
+											statemachineDO_JOB(state), \
+											statemachineON_EXIT(state) \
+									}
+
+/**
+ * @brief state declaration helper with Enter/Do callbacks
+ */
+#define statemachineS_ID(state)  {  \
+											statemachineON_ENTER(state), \
+											statemachineDO_JOB(state), \
+											NULL \
+									}
+
+/**
+ * @brief state declaration helper with Do callback only
+ */
+#define statemachineS_D(state)  {  \
+											NULL, \
+											statemachineDO_JOB(state), \
+											NULL \
+									}
+
+/**
+ * @brief state declaration helper with Do/Exit callbacks
+ */
+#define statemachineS_DO(state)  {  \
+											NULL, \
+											statemachineDO_JOB(state), \
+											statemachineON_EXIT(state) \
+									}
+
+/**
+ * @brief state declaration helper with Enter/Exit callbacks
+ */
+#define statemachineS_IO(state)  {  \
+											statemachineON_ENTER(state), \
+											NULL, \
+											statemachineON_EXIT(state) \
+									}
+/**
+ * @brief state declaration helper with Enter callback only
+ */
+#define statemachineS_I(state)  {  \
+											statemachineON_ENTER(state), \
+											NULL, \
+											NULL \
+									}
+/**
+ * @brief state declaration helper with Exit callback only
+ */
+#define statemachineS_O(state)  {  \
+											NULL, \
+											NULL, \
+											statemachineON_EXIT(state) \
+									}
+/**
+ * @brief state declaration helper with no callbacks
+ */
+#define statemachineS_(state)  {  \
+											NULL, \
+											NULL, \
+											NULL \
+									}
+
+/**
+ * @brief state declaration helper
+ * @param state the state name
+ * @param callbacks needed callbacks
+ * - I : use on_enter callback
+ * - D : use do_job callback
+ * - O : use on_exit callback
+ * I, D, O should be set in this order
+ */
+#define statemachineSTATE(state, callbacks)  statemachineS_##callbacks(state)
  
  
  /**
