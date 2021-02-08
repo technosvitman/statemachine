@@ -29,19 +29,19 @@
  * @brief build state on enter callback function
  * @param state_name the state name
  */
-#define statemachineON_ENTER_CLBK(state)     void sm_##state##_on_enter(void)
+#define statemachineON_ENTER_CLBK(state)     static void sm_##state##_on_enter(void)
 
 /**
  * build state do job callback function
  * @param state_name the state name
  */
-#define statemachineDO_JOB_CLBK(state)       void sm_##state##_do_job(statemachine_event_id_t event, void * data)
+#define statemachineDO_JOB_CLBK(state)       static void sm_##state##_do_job(statemachine_event_id_t event, void * data)
 
 /**
  * @brief build state on enter callback function
  * @param state_name the state name
  */
-#define statemachineON_EXIT_CLBK(state)      void sm_##state##_on_exit(void)
+#define statemachineON_EXIT_CLBK(state)      static void sm_##state##_on_exit(void)
 
 /**
  * @brief get the event id
