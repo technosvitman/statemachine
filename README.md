@@ -77,7 +77,7 @@ void my_machine_init(void)
 					states);
 
   // when ready, you can start the machine
-	statemachine_start(&my_machine);
+  statemachine_start(&my_machine);
 }
 ```
 
