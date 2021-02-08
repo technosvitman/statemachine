@@ -32,8 +32,8 @@ void statemachine_init(statemachine_t * machine, statemachine_state_id_t first_s
   * @param do_job global do job action
   * @param on_exit global on exit action
   */
-void statemachine_set_golbal(statemachine_t * machine, statemachine_enter_clbck_t on_enter, statemachine_do_clbck_t do_job
-							statemachine_exit_clbck_t on_exit);
+void statemachine_set_golbal(statemachine_t * machine, statemachine_enter_clbck_t on_enter, statemachine_do_clbck_t do_job,
+							statemachine_exit_clbck_t on_exit)
 {
 	machine->global_on_enter = on_enter;
 	machine->global_do_job = do_job;
@@ -52,7 +52,7 @@ void statemachine_start(statemachine_t * machine)
 		machine->global_on_enter();
 	}
 
-	statemachine_state_t * state = &(machine->states[machine->current_state]);
+	const statemachine_state_t * state = &(machine->states[machine->current_state]);
 
 	if(state->on_enter != NULL)
 	{
@@ -95,7 +95,7 @@ statemachine_state_id_t statemachine_get_state(statemachine_t * machine)
   */
 void statemachine_compute(statemachine_t * machine, statemachine_event_id_t event, void * data)
 {
-    statemachine_state_t * state = &(machine->states[machine->current_state]);
+    const statemachine_state_t * state = &(machine->states[machine->current_state]);
 
     if(machine->global_do_job!=NULL)
     {

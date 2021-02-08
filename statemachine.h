@@ -10,38 +10,38 @@
  * @brief build state on enter callback name
  * @param state_name the state name
  */
-#define statemachineON_ENTER(state_name)        void sm_##state_name_on_enter
+#define statemachineON_ENTER(state)         sm_##state##_on_enter
 
 /**
  * build state do job callback name
  * @param state_name the state name
  */
-#define statemachineDO_JOB(state_name)            void sm_##state_name_do_job
+#define statemachineDO_JOB(state)           sm_##state##_do_job
 
 /**
  * @brief build state on enter callback name
  * @param state_name the state name
  */
-#define statemachineON_EXIT(state_name)            void sm_##state_name_on_exit
+#define statemachineON_EXIT(state)          sm_##state##_on_exit
  
  
 /**
  * @brief build state on enter callback function
  * @param state_name the state name
  */
-#define statemachineON_ENTER_CLBK(state_name)     void sm_##state_name_on_enter(void)
+#define statemachineON_ENTER_CLBK(state)     void sm_##state##_on_enter(void)
 
 /**
  * build state do job callback function
  * @param state_name the state name
  */
-#define statemachineDO_JOB_CLBK(state_name)       void sm_##state_name_do_job(statemachine_event_id_t event, void * data)
+#define statemachineDO_JOB_CLBK(state)       void sm_##state##_do_job(statemachine_event_id_t event, void * data)
 
 /**
  * @brief build state on enter callback function
  * @param state_name the state name
  */
-#define statemachineON_EXIT_CLBK(state_name)      void sm_##state_name_on_exit(void)
+#define statemachineON_EXIT_CLBK(state)      void sm_##state##_on_exit(void)
 
 /**
  * @brief get the event id
@@ -53,7 +53,13 @@
  * @brief get the event data pointer
  * @note to be used in do_job callback 
  */
-#define statemachineEVENT_DATA()                  (data)  
+#define statemachineEVENT_DATA()                  (data)
+
+/**
+ * @brief indicate that event data are not used
+ * @note to be used in do_job callback
+ */
+#define statemachineNO_DATA()                  ((void)data)
  
  
  /**
@@ -135,7 +141,7 @@ typedef struct
 
 void statemachine_init(statemachine_t * machine, statemachine_state_id_t first_state, const statemachine_state_t * states);
 
-void statemachine_set_golbal(statemachine_t * machine, statemachine_enter_clbck_t on_enter, statemachine_do_clbck_t do_job
+void statemachine_set_golbal(statemachine_t * machine, statemachine_enter_clbck_t on_enter, statemachine_do_clbck_t do_job,
                             statemachine_exit_clbck_t on_exit);
 
 void statemachine_start(statemachine_t * machine);
