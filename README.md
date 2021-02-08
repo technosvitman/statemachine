@@ -25,6 +25,7 @@ By example, an event can be "button pushed" and the attached data can be "the bu
 
 ### Initialization 
 
+```C
 //declare an enumeration with wanted states
 
 typedef enum
@@ -64,9 +65,11 @@ void my_machine_init(void)
   // when ready, you can start the machine
 	statemachine_start(&my_machine);
 }
+```
 
 ### Implement callbacks
 
+```
 // Do job callback
 statemachineDO_JOB_CLBK(my_state_eSTATE_2)
 {
@@ -103,6 +106,7 @@ statemachineON_EXIT_CLBK(my_state_eSTATE_2)
 {
 	//some job	
 }
+```
 
 ## Code example
 
