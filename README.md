@@ -25,6 +25,8 @@ By example, an event can be "button pushed" and the attached data can be "the bu
 
 ### Initialization 
 
+#### In your header file
+
 ```C
 //declare an enumeration with wanted states
 
@@ -38,6 +40,18 @@ typedef enum
   my_state_eCOUNT // only to know how much states you have
 }my_states_t;
 
+//declare an enumeration with wanted event
+
+typedef enum
+{
+  my_event_eEVENT_1 = 0,
+  my_event_eEVENT_2,
+  my_event_eEVENT_3
+}my_event_t;
+```
+#### In your source file
+
+```C
 // declare your machine
 
 statemachine_t  my_machine;
@@ -69,7 +83,7 @@ void my_machine_init(void)
 
 ### Implement callbacks
 
-```
+```C
 // Do job callback
 statemachineDO_JOB_CLBK(my_state_eSTATE_2)
 {
@@ -108,6 +122,15 @@ statemachineON_EXIT_CLBK(my_state_eSTATE_2)
 }
 ```
 
-## Code example
+### Send event to state machine
 
-//TODO !
+```C
+// every where in your code call this function
+statemachine_compute(&my_machine, my_event_eEVENT_1, data); 
+
+// in this exemple we send my_event_eEVENT_1 whith some data
+// you can also send nothing by passing NULL
+
+statemachine_compute(&my_machine, my_event_eEVENT2, NULL);
+
+```
