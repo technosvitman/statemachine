@@ -4,7 +4,7 @@
 
 In many microcontroler programs, without the help of tiny OS (like FreeRTOS), we need to implement a non-blocking state machine.
 In many programs we just can see the easy way, which will be quite difficult to maintain afterwards : a switch/case called each time in the main loop.
-This library uses a more efficient way and has lower energy costs : State action and state change on event.
+This library uses a more efficient way and has lower energy costs : State's action and state change on event.
 
 ## What is a state ?
 
