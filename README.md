@@ -3,7 +3,7 @@
 ## Introduction
 
 In many microcontroler programs, without the help of tiny OS (like FreeRTOS), we need to implement a non-blocking state machine.
-In many program we can just see the easy way, which will be quite difficul to maintain afterwards : a switch/case called each time in main loop.
+In many program we can just see the easy way, which will be quite difficult to maintain afterwards : a switch/case called each time in the main loop.
 This library use a more efficient way and has a lower energy cost : The event call action with NO main loop call.
 
 ## What is a state ?
