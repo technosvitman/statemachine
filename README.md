@@ -68,7 +68,7 @@ void my_machine_init(void)
 ### Implement callbacks
 
 // Do job callback
-statemachineDO_JOB_CLBK(my_machine_STATE_2)
+statemachineDO_JOB_CLBK(my_state_eSTATE_2)
 {
   // if you never access event attached data, add the following line
   statemachineNO_DATA();
@@ -88,6 +88,20 @@ statemachineDO_JOB_CLBK(my_machine_STATE_2)
     default:
     break;
   } 
+}
+
+
+// On enter callback
+statemachineON_ENTER_CLBK(my_state_eSTATE_2)
+{
+	//some job	
+}
+
+
+// On exit callback
+statemachineON_EXIT_CLBK(my_state_eSTATE_2)
+{
+	//some job	
 }
 
 ## Code example
