@@ -7,6 +7,56 @@
 #   define STATE_MACHINE_H
 
 /**
+ * @brief build state on enter callback name
+ * @param state_name the state name
+ */
+#define statemachineON_ENTER(state_name)        void sm_##state_name_on_enter
+
+/**
+ * build state do job callback name
+ * @param state_name the state name
+ */
+#define statemachineDO_JOB(state_name)            void sm_##state_name_do_job
+
+/**
+ * @brief build state on enter callback name
+ * @param state_name the state name
+ */
+#define statemachineON_EXIT(state_name)            void sm_##state_name_on_exit
+ 
+ 
+/**
+ * @brief build state on enter callback function
+ * @param state_name the state name
+ */
+#define statemachineON_ENTER_CLBK(state_name)     void sm_##state_name_on_enter(void)
+
+/**
+ * build state do job callback function
+ * @param state_name the state name
+ */
+#define statemachineDO_JOB_CLBK(state_name)       void sm_##state_name_do_job(statemachine_event_id_t event, void * data)
+
+/**
+ * @brief build state on enter callback function
+ * @param state_name the state name
+ */
+#define statemachineON_EXIT_CLBK(state_name)      void sm_##state_name_on_exit(void)
+
+/**
+ * @brief get the event id
+ * @note to be used in do_job callback 
+ */
+#define statemachineEVENT_ID()                    (event)  
+
+/**
+ * @brief get the event data pointer
+ * @note to be used in do_job callback 
+ */
+#define statemachineEVENT_DATA()                  (data)  
+ 
+ 
+ /**
   * state id
   */
 typedef int statemachine_state_id_t;
@@ -26,7 +76,7 @@ typedef void (*statemachine_enter_clbck_t)(void );
   * @param event the event id to send to state to perform changes
   * @param data some useful data
   */
-typedef void (*statemachine_do_clbck_t)(statemachine_event_id_t, void * data);
+typedef void (*statemachine_do_clbck_t)(statemachine_event_id_t id, void * data);
 
 /**
   * @brief on state exit callback
@@ -86,7 +136,7 @@ typedef struct
 void statemachine_init(statemachine_t * machine, statemachine_state_id_t first_state, const statemachine_state_t * states);
 
 void statemachine_set_golbal(statemachine_t * machine, statemachine_enter_clbck_t on_enter, statemachine_do_clbck_t do_job
-							statemachine_exit_clbck_t on_exit);
+                            statemachine_exit_clbck_t on_exit);
 
 void statemachine_start(statemachine_t * machine);
 
