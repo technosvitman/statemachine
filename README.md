@@ -56,25 +56,24 @@ typedef enum
 
 statemachine_t  my_machine;
 
+// declare states
 
-// in your initialization function
-
-void my_machine_init(void)
-{
-  // declare states
-
-  const statemachine_state_t states[my_state_eCOUNT]={
+const statemachine_state_t states[my_state_eCOUNT]={
 			statemachineSTATE(my_state_eSTATE_1, ID), // this state as Enter action (I) and Do action (D) 
 			statemachineSTATE(my_state_eSTATE_2, IDO), // this state as Enter, Do and Exit action (O)
 			statemachineSTATE(my_state_eSTATE_3, DO), // this state as Do an exit action
 			statemachineSTATE(my_state_eSTATE_4, D), // this state as only Do action
 			statemachineSTATE(my_state_eSTATE_5, ID)
 	  };
-    
+
+
+// in your initialization function
+
+void my_machine_init(void)
+{
    // initialize machine
-  statemachine_init(&my_machine,
-					my_state_eSTATE_3,     // entry state
-					states);
+  statemachine_init(&my_machine, my_state_eSTATE_3,     // entry state
+			states);
 
   // when ready, you can start the machine
   statemachine_start(&my_machine);
@@ -134,3 +133,10 @@ statemachine_compute(&my_machine, my_event_eEVENT_1, data);
 statemachine_compute(&my_machine, my_event_eEVENT2, NULL);
 
 ```
+
+## Code generator
+
+Work in progress ;)
+
+
+
