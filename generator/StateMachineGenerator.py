@@ -1,6 +1,9 @@
 
 from machine import StateMachine
 
+import argparse
+import os
+
 
 class MachineGenerator():
 
@@ -76,7 +79,7 @@ class MachineGenerator():
         @param output file base name
     '''
     def __buildHeader(self, namebase):
-        output = open("output/"+namebase+".h", 'w+')
+        output = open(os.path.dirname(os.path.realpath(__file__))+"/output/"+namebase+".h", 'w+')
         
         protection = namebase.upper() + "_H"
         
@@ -117,7 +120,7 @@ class MachineGenerator():
             output += self.__indentChar+self.__indentChar+"case "+prefix+"event_e"+trans.getEvent()+":\n"
             output += self.__indentChar+self.__indentChar+self.__indentChar+"//TODO write your code here\n"
             output += self.__indentChar+self.__indentChar
-            output += self.__indentChar+prefix+"set_state( "+prefix+"state_e"+trans.getState()+" );+\n"
+            output += self.__indentChar+prefix+"set_state( "+prefix+"state_e"+trans.getState()+" );\n"
             output += self.__indentChar+self.__indentChar+"break;\n\n"
         
         for action in state.getActions():
@@ -192,7 +195,7 @@ class MachineGenerator():
         @brief build source file
     ''' 
     def __buildSource(self, namebase):
-        output = open("output/"+namebase+".c", 'w+')
+        output = open(os.path.dirname(os.path.realpath(__file__))+"/output/"+namebase+".c", 'w+')
                 
         output.write("\n#include \"statemachine.h\"")
         output.write("\n#include \""+namebase+".h\"")
@@ -249,7 +252,13 @@ class MachineGenerator():
         output.write("\n}\n")
         
 
-
-gene = MachineGenerator()
-gene.fromFile("machine_example.yml")
-gene.compute("machine_example")
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Script so useful.')
+    parser.add_argument("-i", type=str, default=os.path.dirname(os.path.realpath(__file__))+"/machine_example.yml")
+    parser.add_argument("-o", type=str, default="machine_example")
+    
+    args = parser.parse_args()
+    
+    gene = MachineGenerator()
+    gene.fromFile(args.i)
+    gene.compute(args.o)
