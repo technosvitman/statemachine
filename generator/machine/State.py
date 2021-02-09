@@ -23,11 +23,22 @@ class State():
     '''
         @brief build state with selected name
         @param name the state's name
+        @param hasEnter if true the state has action on enter
+        @param hasExit if true the state has action on exit
     '''
-    def __init__(self, name):
+    def __init__(self, name, hasEnter, hasExit):
         self.__name = name
+        self.__enter = hasEnter
+        self.__exit = hasExit
         self.__actions = []
         self.__transitions = []
+        
+    '''
+        @brief get state name
+        @return name
+    '''            
+    def getName(self) :
+        return self.__name
         
     '''
         @brief append action triggered by event
@@ -48,7 +59,7 @@ class State():
         @return the string
     '''  
     def __str__(self):
-        output = "State(" + self.__name +"): Transitions( "
+        output = "State(" + self.__name +", "+str(self.__enter)+", "+str(self.__exit)+"): Transitions( "
         
         for trans in self.__transitions :
             output += str(trans) + ', '

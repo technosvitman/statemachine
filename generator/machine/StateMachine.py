@@ -1,6 +1,8 @@
 
 from .State import State
 
+import yaml
+
 class StateMachine():
     
     '''
@@ -13,19 +15,44 @@ class StateMachine():
         self.__states = []
         
     '''
+        @brief get machine name
+        @return name
+    '''            
+    def getName(self) :
+        return self.__name
+        
+    '''
+        @brief get event list
+        @return the list
+    '''            
+    def getEvents(self) :
+        return self.__events
+                
+    '''
+        @brief get state's name list
+        @return the list
+    '''            
+    def getStateNames(self) :
+        names = []
+        for state in self.__states:
+            names.append(state.getName())
+        return names
+        
+    '''
         @brief append an event to the machine
         @param event the event name to append
     '''            
     def appendEvent(self, event):
-        self.__events.append(event)
+        if event not in self.__events:
+            self.__events.append(event)
         
     '''
         @brief append a state to the machine
         @param state the state object
     '''            
     def appendState(self, state):
-        self.__states.append(state)
-    
+        if state not in self.__states:
+            self.__states.append(state)
         
     '''
         @brief build StateMachine from file
@@ -33,23 +60,39 @@ class StateMachine():
         @return the machine
     '''
     def fromFile(file):
-        machine = StateMachine("TBD")
-        machine.appendEvent("Event1")
-        machine.appendEvent("Event2")
-        machine.appendEvent("Event3")
+        yaml_content = yaml.load(file)
         
-        state = State("State1")
-        state.appendTransition("State2", "Event1")
-        state.appendTransition("State3", "Event2")
-        state.appendAction("Event3")
-        machine.appendState(state)
+        machine = StateMachine(yaml_content['machine'])
         
+        declared_states = []
+        used_states = []
         
-        state = State("State2")
-        state.appendTransition("State1", "Event1")
-        state.appendAction("Event2")
-        state.appendAction("Event3")
-        machine.appendState(state)
+        for state_def in yaml_content['states'] :
+            name = state_def['name']
+            assert name not in declared_states, 'state cannot be declared twice %s'.arg(name)
+            declared_states.append(name)
+            state = State(name, state_def['enter'], state_def['exit'])
+            
+            transition_event = []
+            transition_state = []
+            
+            for trans in state_def['transitions'] :
+                event = trans['event']
+                to = trans['to']
+                if to not in used_states :
+                    used_states.append(to)
+                transition_event.append(event)
+                state.appendTransition(to, event)
+                machine.appendEvent(event)
+                            
+            for action in state_def['actions'] :
+                assert action not in transition_event, 'action event cannot be set in a transition too : '+event
+                state.appendAction(action)
+                machine.appendEvent(action)
+            machine.appendState(state)
+        
+        for used_state in used_states :
+            assert used_state in declared_states, 'a transition uses a not declared state : '+used_state        
         
         return machine
         

@@ -1,0 +1,40 @@
+{
+    "machine":"example",
+    "states":[
+        {   "name" : "State1", 
+            "transitions": [
+                {"to":"State2", "event" : "Event1"},
+                {"to":"State3", "event" : "Event2"},
+                {"to":"State4", "event" : "Event3"}
+            ], 
+            "actions" : ["Event4", "Event5", "Event6"],
+            "enter" : True,
+            "exit" : False },
+        {   "name" : "State2", 
+            "transitions": [
+                {"to":"State3", "event" : "Event3"},
+                {"to":"State4", "event" : "Event4"},
+                {"to":"State1", "event" : "Event5"}
+            ], 
+            "actions" : ["Event1"] ,
+            "enter" : False,
+            "exit" : True },
+        {   "name" : "State3", 
+            "transitions": [
+                {"to":"State4", "event" : "Event6"},
+                {"to":"State2", "event" : "Event2"},
+                {"to":"State1", "event" : "Event1"}
+            ], 
+            "actions" : ["Event4"] ,
+            "enter" : True,
+            "exit" : True },
+        {   "name" : "State4", 
+            "transitions": [
+                {"to":"State1", "event" : "Event6"},
+                {"to":"State2", "event" : "Event5"}
+            ], 
+            "actions" : ["Event2"] ,
+            "enter" : False,
+            "exit" : False }
+    ]
+}
