@@ -271,10 +271,10 @@ class MachineGenerator():
             if state.hasExit():
                 output.write(state.getName()+" : on exit : "+state.getName()+"_on_exit()\n")
             for trans in state.getTransitions():
-                output.write(state.getName()+" -> "+trans.getState()+" : "+trans.getEvent()+"\n")
+                output.write(state.getName()+" --> "+trans.getState()+" : "+trans.getEvent()+"\n")
             
             if len(state.getActions()):
-                output.write(state.getName()+" -> "+state.getName()+" : ")
+                output.write(state.getName()+" --> "+state.getName()+" : ")
                 output.write(state.getActions()[0])
                 for action in state.getActions()[1:]:
                     output.write(" | "+action)
