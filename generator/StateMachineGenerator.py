@@ -9,7 +9,7 @@ class MachineGenerator():
     '''
     def __init__(self):
         self.__machine = None
-        self.__indentChar = "  "
+        self.__indentChar = "    "
     
     '''
         build input machine from file
@@ -26,6 +26,7 @@ class MachineGenerator():
         print( self.__machine )
         
         self.__buildHeader(output)
+        self.__buildSource(output)
     
     '''
         @brief compute enum
@@ -70,8 +71,12 @@ class MachineGenerator():
         states = self.__machine.getStateNames()
         return self.__buildEnum("State list", prefix, states)
         
+    '''
+        @brief build and output header file
+        @param output file base name
+    '''
     def __buildHeader(self, namebase):
-        output = open(namebase+".h", 'w+')
+        output = open("output/"+namebase+".h", 'w+')
         
         protection = namebase.upper() + "_H"
         
@@ -88,6 +93,82 @@ class MachineGenerator():
         output.write("\nvoid "+prefix+"compute( "+prefix+"event_t event, void * data );")
         output.write("\n")
         output.write("\n#endif")
+       
+    '''
+        @brief compute state callbacks
+        @param state the state
+        @return the string containing the callbacks
+    ''' 
+    def __buildStateCallbacks(self, state):
+        output = ""
+        prefix = self.__machine.getName() + "_machine_"
+        state_name = prefix+state.getName()
+                        
+        if state.hasEnter() :
+            output += "/**\n"
+            output += " * @brief on enter state "+state.getName()+"\n"
+            output += " */\n"
+            output += "statemachineON_ENTER_CLBK("+state_name+")\n"
+            output += "{\n"
+            output += self.__indentChar+"//TODO write your code here\n"
+            output += "}\n\n"
+                
+        if state.hasExit() :
+            output += "/**\n"
+            output += " * @brief on exit state "+state.getName()+"\n"
+            output += " */\n"
+            output += "statemachineON_EXIT_CLBK("+state_name+")\n"
+            output += "{\n"
+            output += self.__indentChar+"//TODO write your code here\n"
+            output += "}\n\n"
+            
+        return output
+       
+    '''
+        @brief build source file
+    ''' 
+    def __buildSource(self, namebase):
+        output = open("output/"+namebase+".c", 'w+')
+                
+        output.write("\n#include \"statemachine.h\"")
+        output.write("\n#include \""+namebase+".h\"")
+        output.write("\n\n\n")
+        
+        
+        prefix = self.__machine.getName() + "_machine"
+        output.write("\nstate_machine_t "+prefix+";\n")
+        output.write("\n\n\n")
+        output.write("\n/*****************************************************************")
+        output.write("\n *                States Callbacks section                       *")
+        output.write("\n *****************************************************************/\n\n")
+        
+        for state in self.__machine.getStates() :
+            output.write(self.__buildStateCallbacks(state))
+        
+        
+        output.write("\n/*****************************************************************")
+        output.write("\n *                Public functions section                       *")
+        output.write("\n *****************************************************************/\n\n")
+        
+        #write init function
+        output.write("\n/**\n")
+        output.write(" * @brief intitialize "+self.__machine.getName()+" machine\n")
+        output.write(" */\n")
+        output.write("\nvoid "+prefix+"_init( void )")
+        output.write("\n{")
+        output.write("\n"+self.__indentChar+"statemachine_init(&"+prefix+", "+"eventStart, "+prefix+"_states);\n")
+        output.write("\n"+self.__indentChar+"statemachine_start(&"+prefix+");")
+        output.write("\n}\n")
+        #write compute function
+        output.write("\n/**\n")
+        output.write(" * @brief compute "+self.__machine.getName()+" machine\n")
+        output.write(" * @param event the "+self.__machine.getName()+" event\n")
+        output.write(" * @brief data attached event's data or NULL\n")
+        output.write(" */\n")
+        output.write("\nvoid "+prefix+"_compute( "+prefix+"_event_t event, void * data );")
+        output.write("\n{")
+        output.write("\n"+self.__indentChar+"statemachine_compute(&"+prefix+", event, data);")
+        output.write("\n}\n")
         
 
 

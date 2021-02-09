@@ -41,6 +41,20 @@ class State():
         return self.__name
         
     '''
+        @brief get if has enter callback
+        @return true if has callback
+    '''
+    def hasEnter(self) :
+        return self.__enter
+        
+    '''
+        @brief get if has exit callback
+        @return true if has callbac
+    '''            
+    def hasExit(self) :
+        return self.__exit
+        
+    '''
         @brief append action triggered by event
         @param event the event name to append
     '''            

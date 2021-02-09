@@ -27,6 +27,13 @@ class StateMachine():
     '''            
     def getEvents(self) :
         return self.__events
+        
+    '''
+        @brief get state list
+        @return the list
+    '''            
+    def getStates(self) :
+        return self.__states
                 
     '''
         @brief get state's name list
