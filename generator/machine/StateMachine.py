@@ -8,9 +8,11 @@ class StateMachine():
     '''
         @brief build state machine with selected name
         @param name the state machine's name
+        @param entry the entry state name
     '''
-    def __init__(self, name):
+    def __init__(self, name, entry):
         self.__name = name
+        self.__entry = entry
         self.__events = []
         self.__states = []
         
@@ -20,6 +22,13 @@ class StateMachine():
     '''            
     def getName(self) :
         return self.__name
+        
+    '''
+        @brief get entry state
+        @return the entry state name
+    '''            
+    def getEntry(self) :
+        return self.__entry
         
     '''
         @brief get event list
@@ -69,7 +78,7 @@ class StateMachine():
     def fromFile(file):
         yaml_content = yaml.load(file, Loader=yaml.FullLoader)
         
-        machine = StateMachine(yaml_content['machine'])
+        machine = StateMachine(yaml_content['machine'], yaml_content['entry'])
         
         declared_states = []
         used_states = []

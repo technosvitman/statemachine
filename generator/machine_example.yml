@@ -1,5 +1,6 @@
 {
     "machine":"example",
+    "entry" : "State2",
     "states":[
         {   "name" : "State1", 
             "transitions": [

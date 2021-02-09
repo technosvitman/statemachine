@@ -8,9 +8,9 @@
 typedef enum
 {
     example_machine_state_eState1 = 0,
-    example_machine_state_eState2,
-    example_machine_state_eState3,
-    example_machine_state_eState4,
+    example_machine_state_eSTATE2,
+    example_machine_state_eSTATE3,
+    example_machine_state_eSTATE4,
     example_machine_state_eCOUNT
 }
 example_machine_state_t;
@@ -21,11 +21,11 @@ example_machine_state_t;
 typedef enum
 {
     example_machine_event_eEvent1 = 0,
-    example_machine_event_eEvent2,
-    example_machine_event_eEvent3,
-    example_machine_event_eEvent4,
-    example_machine_event_eEvent5,
-    example_machine_event_eEvent6,
+    example_machine_event_eEVENT2,
+    example_machine_event_eEVENT3,
+    example_machine_event_eEVENT4,
+    example_machine_event_eEVENT5,
+    example_machine_event_eEVENT6,
     example_machine_event_eCOUNT
 }
 example_machine_event_t;

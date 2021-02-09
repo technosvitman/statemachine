@@ -48,7 +48,7 @@ class MachineGenerator():
         output += self.__indentChar+prefix + "e" + content[0] + " = 0,\n"
         
         for element in content[1:]:
-            output += self.__indentChar+prefix + "e" + element + ",\n"
+            output += self.__indentChar+prefix + "e" + element.upper() + ",\n"
             
         output += self.__indentChar+prefix + "eCOUNT\n"
         
@@ -117,14 +117,14 @@ class MachineGenerator():
         output += self.__indentChar+"{\n"
         
         for trans in state.getTransitions():
-            output += self.__indentChar+self.__indentChar+"case "+prefix+"event_e"+trans.getEvent()+":\n"
+            output += self.__indentChar+self.__indentChar+"case "+prefix+"event_e"+trans.getEvent().upper()+":\n"
             output += self.__indentChar+self.__indentChar+self.__indentChar+"//TODO write your code here\n"
             output += self.__indentChar+self.__indentChar
-            output += self.__indentChar+prefix+"set_state( "+prefix+"state_e"+trans.getState()+" );\n"
+            output += self.__indentChar+prefix+"set_state( "+prefix+"state_e"+trans.getState().upper()+" );\n"
             output += self.__indentChar+self.__indentChar+"break;\n\n"
         
         for action in state.getActions():
-            output += self.__indentChar+self.__indentChar+"case "+prefix+"event_e"+action+":\n"
+            output += self.__indentChar+self.__indentChar+"case "+prefix+"event_e"+action.upper()+":\n"
             output += self.__indentChar+self.__indentChar+self.__indentChar+"//TODO write your code here\n"
             output += self.__indentChar+self.__indentChar+"break;\n\n"
         
@@ -237,7 +237,8 @@ class MachineGenerator():
         output.write(" */\n")
         output.write("\nvoid "+prefix+"_init( void )")
         output.write("\n{")
-        output.write("\n"+self.__indentChar+"statemachine_init(&"+prefix+", "+"eventStart, "+prefix+"_states);\n")
+        output.write("\n"+self.__indentChar+"statemachine_init(&"+prefix+", ")
+        output.write(prefix+"_state_e"+self.__machine.getEntry().upper()+", "+prefix+"_states);\n")
         output.write("\n"+self.__indentChar+"statemachine_start(&"+prefix+");")
         output.write("\n}\n")
         #write compute function

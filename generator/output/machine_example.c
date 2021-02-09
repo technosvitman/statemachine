@@ -30,30 +30,30 @@ statemachineON_ENTER_CLBK(example_machine_State1)
 
     switch(statemachineEVENT_ID())
     {
-        case example_machine_event_eEvent1:
+        case example_machine_event_eEVENT1:
             //TODO write your code here
-            example_machine_set_state( example_machine_state_eState2 );+
+            example_machine_set_state( example_machine_state_eSTATE2 );
         break;
 
-        case example_machine_event_eEvent2:
+        case example_machine_event_eEVENT2:
             //TODO write your code here
-            example_machine_set_state( example_machine_state_eState3 );+
+            example_machine_set_state( example_machine_state_eSTATE3 );
         break;
 
-        case example_machine_event_eEvent3:
+        case example_machine_event_eEVENT3:
             //TODO write your code here
-            example_machine_set_state( example_machine_state_eState4 );+
+            example_machine_set_state( example_machine_state_eSTATE4 );
         break;
 
-        case example_machine_event_eEvent4:
-            //TODO write your code here
-        break;
-
-        case example_machine_event_eEvent5:
+        case example_machine_event_eEVENT4:
             //TODO write your code here
         break;
 
-        case example_machine_event_eEvent6:
+        case example_machine_event_eEVENT5:
+            //TODO write your code here
+        break;
+
+        case example_machine_event_eEVENT6:
             //TODO write your code here
         break;
 
@@ -71,22 +71,22 @@ statemachineON_ENTER_CLBK(example_machine_State2)
 
     switch(statemachineEVENT_ID())
     {
-        case example_machine_event_eEvent3:
+        case example_machine_event_eEVENT3:
             //TODO write your code here
-            example_machine_set_state( example_machine_state_eState3 );+
+            example_machine_set_state( example_machine_state_eSTATE3 );
         break;
 
-        case example_machine_event_eEvent4:
+        case example_machine_event_eEVENT4:
             //TODO write your code here
-            example_machine_set_state( example_machine_state_eState4 );+
+            example_machine_set_state( example_machine_state_eSTATE4 );
         break;
 
-        case example_machine_event_eEvent5:
+        case example_machine_event_eEVENT5:
             //TODO write your code here
-            example_machine_set_state( example_machine_state_eState1 );+
+            example_machine_set_state( example_machine_state_eSTATE1 );
         break;
 
-        case example_machine_event_eEvent1:
+        case example_machine_event_eEVENT1:
             //TODO write your code here
         break;
 
@@ -120,22 +120,22 @@ statemachineON_ENTER_CLBK(example_machine_State3)
 
     switch(statemachineEVENT_ID())
     {
-        case example_machine_event_eEvent6:
+        case example_machine_event_eEVENT6:
             //TODO write your code here
-            example_machine_set_state( example_machine_state_eState4 );+
+            example_machine_set_state( example_machine_state_eSTATE4 );
         break;
 
-        case example_machine_event_eEvent2:
+        case example_machine_event_eEVENT2:
             //TODO write your code here
-            example_machine_set_state( example_machine_state_eState2 );+
+            example_machine_set_state( example_machine_state_eSTATE2 );
         break;
 
-        case example_machine_event_eEvent1:
+        case example_machine_event_eEVENT1:
             //TODO write your code here
-            example_machine_set_state( example_machine_state_eState1 );+
+            example_machine_set_state( example_machine_state_eSTATE1 );
         break;
 
-        case example_machine_event_eEvent4:
+        case example_machine_event_eEVENT4:
             //TODO write your code here
         break;
 
@@ -161,17 +161,17 @@ statemachineON_ENTER_CLBK(example_machine_State4)
 
     switch(statemachineEVENT_ID())
     {
-        case example_machine_event_eEvent6:
+        case example_machine_event_eEVENT6:
             //TODO write your code here
-            example_machine_set_state( example_machine_state_eState1 );+
+            example_machine_set_state( example_machine_state_eSTATE1 );
         break;
 
-        case example_machine_event_eEvent5:
+        case example_machine_event_eEVENT5:
             //TODO write your code here
-            example_machine_set_state( example_machine_state_eState2 );+
+            example_machine_set_state( example_machine_state_eSTATE2 );
         break;
 
-        case example_machine_event_eEvent2:
+        case example_machine_event_eEVENT2:
             //TODO write your code here
         break;
 
@@ -207,7 +207,7 @@ const statemachine_state_t example_machine_states[example_machine_state_eCOUNT]=
 
 void example_machine_init( void )
 {
-    statemachine_init(&example_machine, eventStart, example_machine_states);
+    statemachine_init(&example_machine, example_machine_state_eSTATE2, example_machine_states);
 
     statemachine_start(&example_machine);
 }
