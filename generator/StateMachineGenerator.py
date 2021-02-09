@@ -30,6 +30,7 @@ class MachineGenerator():
         
         self.__buildHeader(output)
         self.__buildSource(output)
+        self.__buildUML(output)
     
     '''
         @brief compute enum
@@ -251,6 +252,36 @@ class MachineGenerator():
         output.write("\n{")
         output.write("\n"+self.__indentChar+"statemachine_compute(&"+prefix+", event, data);")
         output.write("\n}\n")
+        
+    '''
+        @brief build uml file
+    ''' 
+    def __buildUML(self, namebase):
+        output = open(os.path.dirname(os.path.realpath(__file__))+"/output/"+namebase+".plantuml", 'w+')
+                
+        output.write("\n@startuml\n")
+        
+        
+        output.write("\n[*] -> "+ self.__machine.getEntry()+"\n")
+        
+        for state in self.__machine.getStates() :
+            output.write("\n")
+            if state.hasEnter():
+                output.write(state.getName()+" : on enter : "+state.getName()+"_on_enter()\n")
+            if state.hasExit():
+                output.write(state.getName()+" : on exit : "+state.getName()+"_on_exit()\n")
+            for trans in state.getTransitions():
+                output.write(state.getName()+" -> "+trans.getState()+" : "+trans.getEvent()+"\n")
+            
+            if len(state.getActions()):
+                output.write(state.getName()+" -> "+state.getName()+" : ")
+                output.write(state.getActions()[0])
+                for action in state.getActions()[1:]:
+                    output.write(" | "+action)
+                output.write("\n")
+            output.write("\n")
+        
+        output.write("\n@enduml\n")
         
 
 if __name__ == "__main__":

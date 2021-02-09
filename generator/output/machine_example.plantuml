@@ -1,0 +1,33 @@
+
+@startuml
+
+[*] -> State2
+
+State1 : on enter : State1_on_enter()
+State1 -> State2 : Event1
+State1 -> State3 : Event2
+State1 -> State4 : Event3
+State1 -> State1 : Event4 | Event5 | Event6
+
+
+State2 : on exit : State2_on_exit()
+State2 -> State3 : Event3
+State2 -> State4 : Event4
+State2 -> State1 : Event5
+State2 -> State2 : Event1
+
+
+State3 : on enter : State3_on_enter()
+State3 : on exit : State3_on_exit()
+State3 -> State4 : Event6
+State3 -> State2 : Event2
+State3 -> State1 : Event1
+State3 -> State3 : Event4
+
+
+State4 -> State1 : Event6
+State4 -> State2 : Event5
+State4 -> State4 : Event2
+
+
+@enduml

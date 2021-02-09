@@ -117,7 +117,7 @@ class StateMachine():
         @return the string
     '''  
     def __str__(self):
-        output = "Statemachine(" + self.__name +"): \n  - Events:\n"
+        output = "Statemachine(" + self.__name +", Entry: "+self.__entry+"): \n  - Events:\n"
         
         for event in self.__events : 
             output += "    - " +event + "\n"
