@@ -9,6 +9,20 @@ class StateTransition():
     def __init__(self, to, event):
         self.__to = to
         self.__event = event
+        
+    '''
+        @brief get transition state target
+        @return state name
+    '''            
+    def getState(self) :
+        return self.__to
+        
+    '''
+        @brief get transition event
+        @return event
+    '''            
+    def getEvent(self) :
+        return self.__event
     
     '''
         @brief string represtation for statemachine
@@ -39,6 +53,20 @@ class State():
     '''            
     def getName(self) :
         return self.__name
+        
+    '''
+        @brief get state actions
+        @return action list
+    '''            
+    def getActions(self) :
+        return self.__actions
+        
+    '''
+        @brief get state transitions
+        @return transition list
+    '''            
+    def getTransitions(self) :
+        return self.__transitions
         
     '''
         @brief get if has enter callback

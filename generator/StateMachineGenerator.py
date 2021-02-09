@@ -95,6 +95,45 @@ class MachineGenerator():
         output.write("\n#endif")
        
     '''
+        @brief compute state do job callback
+        @param state the state
+        @return the string containing the callback
+    ''' 
+    def __buildStateDoJob(self, state):
+        output = ""
+        prefix = self.__machine.getName() + "_machine_"
+        state_name = prefix+state.getName()
+        
+        output += "/**\n"
+        output += " * @brief do job for state "+state.getName()+"\n"
+        output += " */\n"
+        output += "statemachineON_ENTER_CLBK("+state_name+")\n"
+        output += "{\n"
+        output += self.__indentChar+"statemachineNO_DATA(); //Remove this line to use data\n\n"
+        output += self.__indentChar+"switch(statemachineEVENT_ID())\n"
+        output += self.__indentChar+"{\n"
+        
+        for trans in state.getTransitions():
+            output += self.__indentChar+self.__indentChar+"case "+prefix+"event_e"+trans.getEvent()+":\n"
+            output += self.__indentChar+self.__indentChar+self.__indentChar+"//TODO write your code here\n"
+            output += self.__indentChar+self.__indentChar
+            output += self.__indentChar+prefix+"set_state( "+prefix+"state_e"+trans.getState()+" );+\n"
+            output += self.__indentChar+self.__indentChar+"break;\n\n"
+        
+        for action in state.getActions():
+            output += self.__indentChar+self.__indentChar+"case "+prefix+"event_e"+action+":\n"
+            output += self.__indentChar+self.__indentChar+self.__indentChar+"//TODO write your code here\n"
+            output += self.__indentChar+self.__indentChar+"break;\n\n"
+        
+        
+        output += self.__indentChar+self.__indentChar+"default:\n"
+        output += self.__indentChar+self.__indentChar+"break;\n"
+        output += self.__indentChar+"}\n"
+        output += "}\n\n"
+        
+        return output
+        
+    '''
         @brief compute state callbacks
         @param state the state
         @return the string containing the callbacks
@@ -112,6 +151,8 @@ class MachineGenerator():
             output += "{\n"
             output += self.__indentChar+"//TODO write your code here\n"
             output += "}\n\n"
+            
+        output += self.__buildStateDoJob(state)
                 
         if state.hasExit() :
             output += "/**\n"
@@ -121,6 +162,29 @@ class MachineGenerator():
             output += "{\n"
             output += self.__indentChar+"//TODO write your code here\n"
             output += "}\n\n"
+            
+        return output
+        
+    '''
+        @brief compute state declaration
+        @param state the state
+        @return the string containing the declaration
+    ''' 
+    def __buildStateDeclaration(self, state):
+        output = self.__indentChar+"statemachineSTATE("
+        prefix = self.__machine.getName() + "_machine_"        
+        output += prefix+state.getName()+", "
+        
+                        
+        if state.hasEnter() :
+            output += "I"
+            
+        output += "D"
+                
+        if state.hasExit() :
+            output += "O"
+        
+        output += " )"
             
         return output
        
@@ -139,15 +203,29 @@ class MachineGenerator():
         output.write("\nstate_machine_t "+prefix+";\n")
         output.write("\n\n\n")
         output.write("\n/*****************************************************************")
-        output.write("\n *                States Callbacks section                       *")
+        output.write("\n *                  States Callbacks section                     *")
         output.write("\n *****************************************************************/\n\n")
+        
+        declaration = ""
         
         for state in self.__machine.getStates() :
             output.write(self.__buildStateCallbacks(state))
+            declaration += self.__buildStateDeclaration(state)+",\n"
+            
+            
+        output.write("\n/*****************************************************************")
+        output.write("\n *                    States declaration                         *")
+        output.write("\n *****************************************************************/\n\n")
         
+        output.write("\n/**\n")
+        output.write(" * @brief states declaration for "+self.__machine.getName()+" machine\n")
+        output.write(" */\n")
+        output.write("const statemachine_state_t "+prefix+"_states["+prefix+"_state_eCOUNT]={\n")
+        output.write(declaration)
+        output.write("};\n")
         
         output.write("\n/*****************************************************************")
-        output.write("\n *                Public functions section                       *")
+        output.write("\n *                  Public functions section                     *")
         output.write("\n *****************************************************************/\n\n")
         
         #write init function

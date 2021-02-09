@@ -67,7 +67,7 @@ class StateMachine():
         @return the machine
     '''
     def fromFile(file):
-        yaml_content = yaml.load(file)
+        yaml_content = yaml.load(file, Loader=yaml.FullLoader)
         
         machine = StateMachine(yaml_content['machine'])
         

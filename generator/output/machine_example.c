@@ -10,7 +10,7 @@ state_machine_t example_machine;
 
 
 /*****************************************************************
- *                States Callbacks section                       *
+ *                  States Callbacks section                     *
  *****************************************************************/
 
 /**
@@ -19,6 +19,80 @@ state_machine_t example_machine;
 statemachineON_ENTER_CLBK(example_machine_State1)
 {
     //TODO write your code here
+}
+
+/**
+ * @brief do job for state State1
+ */
+statemachineON_ENTER_CLBK(example_machine_State1)
+{
+    statemachineNO_DATA(); //Remove this line to use data
+
+    switch(statemachineEVENT_ID())
+    {
+        case example_machine_event_eEvent1:
+            //TODO write your code here
+            example_machine_set_state( example_machine_state_eState2 );+
+        break;
+
+        case example_machine_event_eEvent2:
+            //TODO write your code here
+            example_machine_set_state( example_machine_state_eState3 );+
+        break;
+
+        case example_machine_event_eEvent3:
+            //TODO write your code here
+            example_machine_set_state( example_machine_state_eState4 );+
+        break;
+
+        case example_machine_event_eEvent4:
+            //TODO write your code here
+        break;
+
+        case example_machine_event_eEvent5:
+            //TODO write your code here
+        break;
+
+        case example_machine_event_eEvent6:
+            //TODO write your code here
+        break;
+
+        default:
+        break;
+    }
+}
+
+/**
+ * @brief do job for state State2
+ */
+statemachineON_ENTER_CLBK(example_machine_State2)
+{
+    statemachineNO_DATA(); //Remove this line to use data
+
+    switch(statemachineEVENT_ID())
+    {
+        case example_machine_event_eEvent3:
+            //TODO write your code here
+            example_machine_set_state( example_machine_state_eState3 );+
+        break;
+
+        case example_machine_event_eEvent4:
+            //TODO write your code here
+            example_machine_set_state( example_machine_state_eState4 );+
+        break;
+
+        case example_machine_event_eEvent5:
+            //TODO write your code here
+            example_machine_set_state( example_machine_state_eState1 );+
+        break;
+
+        case example_machine_event_eEvent1:
+            //TODO write your code here
+        break;
+
+        default:
+        break;
+    }
 }
 
 /**
@@ -38,6 +112,39 @@ statemachineON_ENTER_CLBK(example_machine_State3)
 }
 
 /**
+ * @brief do job for state State3
+ */
+statemachineON_ENTER_CLBK(example_machine_State3)
+{
+    statemachineNO_DATA(); //Remove this line to use data
+
+    switch(statemachineEVENT_ID())
+    {
+        case example_machine_event_eEvent6:
+            //TODO write your code here
+            example_machine_set_state( example_machine_state_eState4 );+
+        break;
+
+        case example_machine_event_eEvent2:
+            //TODO write your code here
+            example_machine_set_state( example_machine_state_eState2 );+
+        break;
+
+        case example_machine_event_eEvent1:
+            //TODO write your code here
+            example_machine_set_state( example_machine_state_eState1 );+
+        break;
+
+        case example_machine_event_eEvent4:
+            //TODO write your code here
+        break;
+
+        default:
+        break;
+    }
+}
+
+/**
  * @brief on exit state State3
  */
 statemachineON_EXIT_CLBK(example_machine_State3)
@@ -45,9 +152,52 @@ statemachineON_EXIT_CLBK(example_machine_State3)
     //TODO write your code here
 }
 
+/**
+ * @brief do job for state State4
+ */
+statemachineON_ENTER_CLBK(example_machine_State4)
+{
+    statemachineNO_DATA(); //Remove this line to use data
+
+    switch(statemachineEVENT_ID())
+    {
+        case example_machine_event_eEvent6:
+            //TODO write your code here
+            example_machine_set_state( example_machine_state_eState1 );+
+        break;
+
+        case example_machine_event_eEvent5:
+            //TODO write your code here
+            example_machine_set_state( example_machine_state_eState2 );+
+        break;
+
+        case example_machine_event_eEvent2:
+            //TODO write your code here
+        break;
+
+        default:
+        break;
+    }
+}
+
 
 /*****************************************************************
- *                Public functions section                       *
+ *                    States declaration                         *
+ *****************************************************************/
+
+
+/**
+ * @brief states declaration for example machine
+ */
+const statemachine_state_t example_machine_states[example_machine_state_eCOUNT]={
+    statemachineSTATE(example_machine_State1, ID ),
+    statemachineSTATE(example_machine_State2, DO ),
+    statemachineSTATE(example_machine_State3, IDO ),
+    statemachineSTATE(example_machine_State4, D ),
+};
+
+/*****************************************************************
+ *                  Public functions section                     *
  *****************************************************************/
 
 
