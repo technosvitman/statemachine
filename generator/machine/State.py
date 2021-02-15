@@ -47,11 +47,13 @@ class State():
     '''
         @brief build state with selected name
         @param name the state's name
+        @param comment some information on state
         @param hasEnter if true the state has action on enter
         @param hasExit if true the state has action on exit
     '''
-    def __init__(self, name, hasEnter, hasExit):
+    def __init__(self, name, comment, hasEnter, hasExit):
         self.__name = name
+        self.__comment = comment
         self.__enter = hasEnter
         self.__exit = hasExit
         self.__actions = []
@@ -63,6 +65,13 @@ class State():
     '''            
     def getName(self) :
         return self.__name
+        
+    '''
+        @brief get state comment
+        @return comment
+    '''            
+    def getComment(self) :
+        return self.__comment
         
     '''
         @brief get state actions

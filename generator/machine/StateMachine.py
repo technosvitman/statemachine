@@ -31,11 +31,14 @@ class StateMachine():
         return self.__entry
         
     '''
-        @brief get event list
+        @brief get event name and comment list
         @return the list
     '''            
     def getEvents(self) :
-        return self.__events
+        infos = []
+        for event in self.__events:
+            infos.append({"name":event, "comment":"TBD"})
+        return infos
         
     '''
         @brief get state list
@@ -45,14 +48,14 @@ class StateMachine():
         return self.__states
                 
     '''
-        @brief get state's name list
+        @brief get state's name and comment list
         @return the list
     '''            
-    def getStateNames(self) :
-        names = []
+    def getStateInfo(self) :
+        infos = []
         for state in self.__states:
-            names.append(state.getName())
-        return names
+            infos.append({"name":state.getName(), "comment":state.getComment()})
+        return infos
         
     '''
         @brief append an event to the machine
@@ -94,9 +97,16 @@ class StateMachine():
         assert states != None, "machine may have state list"
         
         for state_def in states :
+            name = state_def.get('name')
+            assert name != None, "state may have name"
             assert name not in declared_states, 'state cannot be declared twice %s'.arg(name)
             declared_states.append(name)
-            state = State(name, state_def['enter'], state_def['exit'])
+            
+            comment = state_def.get('comment')
+            assert comment != None, "state may have comment"
+            
+            
+            state = State(name, state_def['comment'], state_def['enter'], state_def['exit'])
             
             transition_event = []
             transition_state = []

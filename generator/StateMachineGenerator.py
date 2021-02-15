@@ -46,13 +46,21 @@ class MachineGenerator():
         output += "typedef enum\n"
         output += "{\n"
                 
-        output += self.__indentChar+prefix + "e" + content[0].upper() + " = 0,\n"
+        output += self.__indentChar+"/**\n"
+        output += self.__indentChar+" * @brief "+content[0]["comment"]+"\n"
+        output += self.__indentChar+" */\n"
+        output += self.__indentChar+prefix + "e" + content[0]["name"].upper() + " = 0,\n"
         
         for element in content[1:]:
-            output += self.__indentChar+prefix + "e" + element.upper() + ",\n"
-            
-        output += self.__indentChar+prefix + "eCOUNT\n"
-        
+            output += self.__indentChar+"/**\n"
+            output += self.__indentChar+" * @brief "+element["comment"]+"\n"
+            output += self.__indentChar+" */\n"
+            output += self.__indentChar+prefix + "e" + element["name"].upper() + ",\n"
+                            
+        output += self.__indentChar+"/**\n"
+        output += self.__indentChar+" * @brief amount of values\n"
+        output += self.__indentChar+" */\n"
+        output += self.__indentChar+prefix + "eCOUNT\n"        
         output += "}\n"
         output += prefix + "t;\n"
         return output
@@ -72,7 +80,7 @@ class MachineGenerator():
     '''
     def __buildStateEnum(self):
         prefix = self.__machine.getName() + "_machine_state_"
-        states = self.__machine.getStateNames()
+        states = self.__machine.getStateInfo()
         return self.__buildEnum("State list", prefix, states)
         
     '''
@@ -267,10 +275,11 @@ class MachineGenerator():
         
         for state in self.__machine.getStates() :
             output.write("\n")
+            output.write(state.getName()+" : //"+state.getComment()+"//\n\n")
             if state.hasEnter():
-                output.write(state.getName()+" : on enter : "+state.getName()+"_on_enter()\n")
+                output.write(state.getName()+" : __on enter__ : **"+state.getName()+"_on_enter()**\n")
             if state.hasExit():
-                output.write(state.getName()+" : on exit : "+state.getName()+"_on_exit()\n")
+                output.write(state.getName()+" : __on exit__ : **"+state.getName()+"_on_exit()**\n")
             for trans in state.getTransitions():
                 events = trans.getEvents()[0]
                 for event in trans.getEvents()[1:] :
