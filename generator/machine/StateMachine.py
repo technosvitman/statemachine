@@ -105,13 +105,21 @@ class StateMachine():
             comment = state_def.get('comment')
             assert comment != None, "state may have comment"
             
+            hasenter = state_def.get('enter')
+            assert hasenter != None, "state may have enter information"
             
-            state = State(name, state_def['comment'], state_def['enter'], state_def['exit'])
+            hasexit = state_def.get('exit')
+            assert hasexit != None, "state may have exit info"
+            
+            
+            state = State(name, comment, hasenter, hasexit)
             
             transition_event = []
             transition_state = []
             
-            for trans in state_def['transitions'] :
+            transitions = state_def.get('transitions')
+            assert transitions != None, "state may have transitions list" 
+            for trans in transitions :
                 event = trans['event']
                 to = trans['to']
                 if to not in used_states :
@@ -119,8 +127,10 @@ class StateMachine():
                 transition_event.append(event)
                 state.appendTransition(to, event)
                 machine.appendEvent(event)
-                            
-            for action in state_def['actions'] :
+            
+            actions = state_def.get('actions')
+            assert actions != None, "state may have action list( also if empty) " 
+            for action in actions :
                 assert action not in transition_event, 'action event cannot be set in a transition too : '+event
                 state.appendAction(action)
                 machine.appendEvent(action)
