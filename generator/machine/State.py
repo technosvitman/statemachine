@@ -8,7 +8,7 @@ class StateTransition():
     '''
     def __init__(self, to, event):
         self.__to = to
-        self.__event = event
+        self.__event = [event]
         
     '''
         @brief get transition state target
@@ -21,15 +21,25 @@ class StateTransition():
         @brief get transition event
         @return event
     '''            
-    def getEvent(self) :
+    def getEvents(self) :
         return self.__event
+        
+    '''
+        @brief append transition event
+        @param event event
+    '''            
+    def append(self, event) :
+        self.__event.append(event)
     
     '''
         @brief string represtation for statemachine
         @return the string
     '''  
     def __str__(self):
-        return "on "+ self.__event + "-> " + self.__to
+        output = self.__event[0]
+        for event in self.__event[1:]:
+            output += " | " + event
+        return "on ("+ output + ")-> " + self.__to
     
 
 class State():
@@ -94,6 +104,10 @@ class State():
         @param state the state object
     '''            
     def appendTransition(self, state, event):
+        for trans in self.__transitions :
+            if trans.getState() == state :
+                trans.append(event)
+                return
         self.__transitions.append( StateTransition(state, event) )
 
     '''

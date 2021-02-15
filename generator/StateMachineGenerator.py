@@ -46,7 +46,7 @@ class MachineGenerator():
         output += "typedef enum\n"
         output += "{\n"
                 
-        output += self.__indentChar+prefix + "e" + content[0] + " = 0,\n"
+        output += self.__indentChar+prefix + "e" + content[0].upper() + " = 0,\n"
         
         for element in content[1:]:
             output += self.__indentChar+prefix + "e" + element.upper() + ",\n"
@@ -118,11 +118,12 @@ class MachineGenerator():
         output += self.__indentChar+"{\n"
         
         for trans in state.getTransitions():
-            output += self.__indentChar+self.__indentChar+"case "+prefix+"event_e"+trans.getEvent().upper()+":\n"
-            output += self.__indentChar+self.__indentChar+self.__indentChar+"//TODO write your code here\n"
-            output += self.__indentChar+self.__indentChar
-            output += self.__indentChar+prefix+"set_state( "+prefix+"state_e"+trans.getState().upper()+" );\n"
-            output += self.__indentChar+self.__indentChar+"break;\n\n"
+            for event in trans.getEvents(): 
+                output += self.__indentChar+self.__indentChar+"case "+prefix+"event_e"+event.upper()+":\n"
+                output += self.__indentChar+self.__indentChar+self.__indentChar+"//TODO write your code here\n"
+                output += self.__indentChar+self.__indentChar
+                output += self.__indentChar+prefix+"set_state( "+prefix+"state_e"+trans.getState().upper()+" );\n"
+                output += self.__indentChar+self.__indentChar+"break;\n\n"
         
         for action in state.getActions():
             output += self.__indentChar+self.__indentChar+"case "+prefix+"event_e"+action.upper()+":\n"
@@ -271,7 +272,10 @@ class MachineGenerator():
             if state.hasExit():
                 output.write(state.getName()+" : on exit : "+state.getName()+"_on_exit()\n")
             for trans in state.getTransitions():
-                output.write(state.getName()+" --> "+trans.getState()+" : "+trans.getEvent()+"\n")
+                events = trans.getEvents()[0]
+                for event in trans.getEvents()[1:] :
+                    events += " || "+event
+                output.write(state.getName()+" --> "+trans.getState()+" : "+ events +"\n")
             
             if len(state.getActions()):
                 output.write(state.getName()+" --> "+state.getName()+" : ")
