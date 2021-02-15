@@ -78,13 +78,22 @@ class StateMachine():
     def fromFile(file):
         yaml_content = yaml.load(file, Loader=yaml.FullLoader)
         
-        machine = StateMachine(yaml_content['machine'], yaml_content['entry'])
+        machine = yaml_content.get('machine')
+        assert machine != None, "machine may have a name (field 'machine')"
+        
+        entry = yaml_content.get('entry')
+        assert entry != None, "machine may have an entry state"
+        
+        machine = StateMachine(machine, entry)
         
         declared_states = []
         used_states = []
         
-        for state_def in yaml_content['states'] :
-            name = state_def['name']
+        states = yaml_content.get('states')
+        
+        assert states != None, "machine may have state list"
+        
+        for state_def in states :
             assert name not in declared_states, 'state cannot be declared twice %s'.arg(name)
             declared_states.append(name)
             state = State(name, state_def['enter'], state_def['exit'])
