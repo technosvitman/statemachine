@@ -56,7 +56,7 @@ class State():
         self.__comment = comment
         self.__enter = hasEnter
         self.__exit = hasExit
-        self.__actions = []
+        self.__actions = {}
         self.__transitions = []
         
     '''
@@ -104,9 +104,10 @@ class State():
     '''
         @brief append action triggered by event
         @param event the event name to append
+        @param action the action brief
     '''            
-    def appendAction(self, event):
-        self.__actions.append(event)
+    def appendAction(self, event, action):
+        self.__actions[event]=action
         
     '''
         @brief append a transition

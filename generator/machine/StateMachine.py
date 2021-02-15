@@ -13,7 +13,7 @@ class StateMachine():
     def __init__(self, name, entry):
         self.__name = name
         self.__entry = entry
-        self.__events = []
+        self.__events = {}
         self.__states = []
         
     '''
@@ -36,8 +36,8 @@ class StateMachine():
     '''            
     def getEvents(self) :
         infos = []
-        for event in self.__events:
-            infos.append({"name":event, "comment":"TBD"})
+        for event, comment in self.__events.items():
+            infos.append({"name":event, "comment":comment})
         return infos
         
     '''
@@ -60,10 +60,14 @@ class StateMachine():
     '''
         @brief append an event to the machine
         @param event the event name to append
+        @param comment the event comment
     '''            
-    def appendEvent(self, event):
-        if event not in self.__events:
-            self.__events.append(event)
+    def appendEvent(self, event, comment):
+        if event in self.__events:
+            if comment: 
+                self.__events[event] = comment
+        else :
+            self.__events[event]=comment
         
     '''
         @brief append a state to the machine
@@ -120,20 +124,23 @@ class StateMachine():
             transitions = state_def.get('transitions')
             assert transitions != None, "state may have transitions list" 
             for trans in transitions :
-                event = trans['event']
-                to = trans['to']
+                event = trans.get('event')
+                assert event != None, "transition may have event"
+                to = trans.get('to')
+                assert to != None, "transition may have destination state ('to')"
                 if to not in used_states :
                     used_states.append(to)
                 transition_event.append(event)
                 state.appendTransition(to, event)
-                machine.appendEvent(event)
+                machine.appendEvent(event, trans.get("comment", ""))
             
             actions = state_def.get('actions')
             assert actions != None, "state may have action list( also if empty) " 
             for action in actions :
-                assert action not in transition_event, 'action event cannot be set in a transition too : '+event
-                state.appendAction(action)
-                machine.appendEvent(action)
+                event = action.get('event')
+                assert event not in transition_event, 'action event cannot be set in a transition too : '+event
+                state.appendAction(event, action.get("action", "") )
+                machine.appendEvent(event, action.get("comment", ""))
             machine.appendState(state)
         
         for used_state in used_states :

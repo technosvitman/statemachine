@@ -133,8 +133,10 @@ class MachineGenerator():
                 output += self.__indentChar+prefix+"set_state( "+prefix+"state_e"+trans.getState().upper()+" );\n"
                 output += self.__indentChar+self.__indentChar+"break;\n\n"
         
-        for action in state.getActions():
-            output += self.__indentChar+self.__indentChar+"case "+prefix+"event_e"+action.upper()+":\n"
+        for event, action in state.getActions().items():
+            output += self.__indentChar+self.__indentChar+"case "+prefix+"event_e"+event.upper()+":\n"
+            if action :
+                output += self.__indentChar+self.__indentChar+self.__indentChar+"/* "+action+" */\n"
             output += self.__indentChar+self.__indentChar+self.__indentChar+"//TODO write your code here\n"
             output += self.__indentChar+self.__indentChar+"break;\n\n"
         
@@ -275,7 +277,7 @@ class MachineGenerator():
         
         for state in self.__machine.getStates() :
             output.write("\n")
-            output.write(state.getName()+" : //"+state.getComment()+"//\n\n")
+            output.write(state.getName()+" : //"+state.getComment()+"//\\n\n")
             if state.hasEnter():
                 output.write(state.getName()+" : __on enter__ : **"+state.getName()+"_on_enter()**\n")
             if state.hasExit():
@@ -287,10 +289,11 @@ class MachineGenerator():
                 output.write(state.getName()+" --> "+trans.getState()+" : "+ events +"\n")
             
             if len(state.getActions()):
-                output.write(state.getName()+" --> "+state.getName()+" : ")
-                output.write(state.getActions()[0])
-                for action in state.getActions()[1:]:
-                    output.write(" | "+action)
+                for event, action in state.getActions().items():
+                    output.write(state.getName()+" --> "+state.getName()+" : " + event)
+                    if action : 
+                        output.write(" : //"+action+"//")
+                    output.write("\n")
                 output.write("\n")
             output.write("\n")
         
