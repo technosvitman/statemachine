@@ -280,8 +280,10 @@ class MachineGenerator():
             output.write(state.getName()+" : //"+state.getComment()+"//\\n\n")
             if state.hasEnter():
                 output.write(state.getName()+" : __on enter__ : **"+state.getName()+"_on_enter()**\n")
+                output.write(state.getName()+" : > " + state.getEnter() + "\\n\n")
             if state.hasExit():
                 output.write(state.getName()+" : __on exit__ : **"+state.getName()+"_on_exit()**\n")
+                output.write(state.getName()+" : > " + state.getExit() + "\\n\n")
             for trans in state.getTransitions():
                 events = trans.getEvents()[0]
                 for event in trans.getEvents()[1:] :

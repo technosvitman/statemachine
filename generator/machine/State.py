@@ -48,14 +48,14 @@ class State():
         @brief build state with selected name
         @param name the state's name
         @param comment some information on state
-        @param hasEnter if true the state has action on enter
-        @param hasExit if true the state has action on exit
+        @param enterBrief if not empty the state has action on enter
+        @param exitBrief if not empty the state has action on exit
     '''
-    def __init__(self, name, comment, hasEnter, hasExit):
+    def __init__(self, name, comment, enterBrief, exitBrief):
         self.__name = name
         self.__comment = comment
-        self.__enter = hasEnter
-        self.__exit = hasExit
+        self.__enter = enterBrief
+        self.__exit = exitBrief
         self.__actions = {}
         self.__transitions = []
         
@@ -92,13 +92,27 @@ class State():
         @return true if has callback
     '''
     def hasEnter(self) :
-        return self.__enter
+        return self.__enter!=""
         
     '''
         @brief get if has exit callback
         @return true if has callbac
     '''            
     def hasExit(self) :
+        return self.__exit!=""
+        
+    '''
+        @brief get enter action brief
+        @return enter brief
+    '''
+    def getEnter(self) :
+        return self.__enter
+        
+    '''
+        @brief get exit action brief
+        @return exit brief
+    '''            
+    def getExit(self) :
         return self.__exit
         
     '''
@@ -125,7 +139,7 @@ class State():
         @return the string
     '''  
     def __str__(self):
-        output = "State(" + self.__name +", "+str(self.__enter)+", "+str(self.__exit)+"): Transitions( "
+        output = "State(" + self.__name +"): Transitions( "
         
         for trans in self.__transitions :
             output += str(trans) + ', '
