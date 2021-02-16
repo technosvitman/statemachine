@@ -14,6 +14,14 @@ state_machine_t example_machine;
  *****************************************************************/
 
 /**
+ * @brief set machine state
+ */
+static inline void example_machine_set_state( example_machine_state_t state )
+{
+    statemachine_Set_state( &example_machine, state);
+}
+
+/**
  * @brief on enter state State1
  */
 statemachineON_ENTER_CLBK(example_machine_State1)
@@ -206,11 +214,11 @@ const statemachine_state_t example_machine_states[example_machine_state_eCOUNT]=
  * @brief intitialize example machine
  */
 
-void example_machine_init( void )
+void example_machine_Init( void )
 {
-    statemachine_init(&example_machine, example_machine_state_eSTATE2, example_machine_states);
+    statemachine_Init(&example_machine, example_machine_state_eSTATE2, example_machine_states);
 
-    statemachine_start(&example_machine);
+    statemachine_Start(&example_machine);
 }
 
 /**
@@ -219,7 +227,7 @@ void example_machine_init( void )
  * @brief data attached event's data or NULL
  */
 
-void example_machine_compute( example_machine_event_t event, void * data );
+void example_machine_Compute( example_machine_event_t event, void * data );
 {
-    statemachine_compute(&example_machine, event, data);
+    statemachine_Compute(&example_machine, event, data);
 }

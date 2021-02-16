@@ -14,7 +14,7 @@
   * @param first_state the entry point state
   * @param states states definitions
   */
-void statemachine_init(statemachine_t * machine, statemachine_state_id_t first_state, const statemachine_state_t * states)
+void statemachine_Init(statemachine_t * machine, statemachine_state_id_t first_state, const statemachine_state_t * states)
 {
 	machine->new_state = first_state;
 	machine->current_state = first_state;
@@ -32,7 +32,7 @@ void statemachine_init(statemachine_t * machine, statemachine_state_id_t first_s
   * @param do_job global do job action
   * @param on_exit global on exit action
   */
-void statemachine_set_golbal(statemachine_t * machine, statemachine_enter_clbck_t on_enter, statemachine_do_clbck_t do_job,
+void statemachine_Set_global(statemachine_t * machine, statemachine_enter_clbck_t on_enter, statemachine_do_clbck_t do_job,
 							statemachine_exit_clbck_t on_exit)
 {
 	machine->global_on_enter = on_enter;
@@ -45,7 +45,7 @@ void statemachine_set_golbal(statemachine_t * machine, statemachine_enter_clbck_
  * @note execute global_on_enter and current_state on_enter
  * @warning should be called before any "compute" call
  */
-void statemachine_start(statemachine_t * machine)
+void statemachine_Start(statemachine_t * machine)
 {    
 	if(machine->global_on_enter != NULL)
 	{
@@ -65,7 +65,7 @@ void statemachine_start(statemachine_t * machine)
   * @param machine state machine to change
   * @param new_state the new state id
   */
-void statemachine_set_state(statemachine_t * machine, statemachine_state_id_t new_state)
+void statemachine_Set_state(statemachine_t * machine, statemachine_state_id_t new_state)
 {
     machine->new_state = new_state;
 }
@@ -75,7 +75,7 @@ void statemachine_set_state(statemachine_t * machine, statemachine_state_id_t ne
   * @param machine state machine to show
   * @return current statemachine_state_id_t
   */
-statemachine_state_id_t statemachine_get_state(statemachine_t * machine)
+statemachine_state_id_t statemachine_Get_state(statemachine_t * machine)
 {
     return machine->current_state;
 }
@@ -93,7 +93,7 @@ statemachine_state_id_t statemachine_get_state(statemachine_t * machine)
   * @param event the event id to send to state to perform changes
   * @param data some useful data
   */
-void statemachine_compute(statemachine_t * machine, statemachine_event_id_t event, void * data)
+void statemachine_Compute(statemachine_t * machine, statemachine_event_id_t event, void * data)
 {
     const statemachine_state_t * state = &(machine->states[machine->current_state]);
 

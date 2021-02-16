@@ -102,8 +102,8 @@ class MachineGenerator():
         output.write("\n")
         
         prefix = self.__machine.getName() + "_machine_"
-        output.write("\nvoid "+prefix+"init( void );")
-        output.write("\nvoid "+prefix+"compute( "+prefix+"event_t event, void * data );")
+        output.write("\nvoid "+prefix+"Init( void );")
+        output.write("\nvoid "+prefix+"Compute( "+prefix+"event_t event, void * data );")
         output.write("\n")
         output.write("\n#endif")
        
@@ -222,6 +222,15 @@ class MachineGenerator():
         output.write("\n *                  States Callbacks section                     *")
         output.write("\n *****************************************************************/\n\n")
         
+        output.write("/**\n")
+        output.write(" * @brief set machine state\n")
+        output.write(" */\n")
+        output.write("static inline void " + prefix + "_set_state( ")
+        output.write(prefix + "_state_t state )\n")
+        output.write("{\n")
+        output.write(self.__indentChar+"statemachine_Set_state( &" + prefix + ", state);\n")
+        output.write("}\n\n")
+        
         declaration = ""
         
         for state in self.__machine.getStates() :
@@ -248,11 +257,11 @@ class MachineGenerator():
         output.write("\n/**\n")
         output.write(" * @brief intitialize "+self.__machine.getName()+" machine\n")
         output.write(" */\n")
-        output.write("\nvoid "+prefix+"_init( void )")
+        output.write("\nvoid "+prefix+"_Init( void )")
         output.write("\n{")
-        output.write("\n"+self.__indentChar+"statemachine_init(&"+prefix+", ")
+        output.write("\n"+self.__indentChar+"statemachine_Init(&"+prefix+", ")
         output.write(prefix+"_state_e"+self.__machine.getEntry().upper()+", "+prefix+"_states);\n")
-        output.write("\n"+self.__indentChar+"statemachine_start(&"+prefix+");")
+        output.write("\n"+self.__indentChar+"statemachine_Start(&"+prefix+");")
         output.write("\n}\n")
         #write compute function
         output.write("\n/**\n")
@@ -260,9 +269,9 @@ class MachineGenerator():
         output.write(" * @param event the "+self.__machine.getName()+" event\n")
         output.write(" * @brief data attached event's data or NULL\n")
         output.write(" */\n")
-        output.write("\nvoid "+prefix+"_compute( "+prefix+"_event_t event, void * data );")
+        output.write("\nvoid "+prefix+"_Compute( "+prefix+"_event_t event, void * data );")
         output.write("\n{")
-        output.write("\n"+self.__indentChar+"statemachine_compute(&"+prefix+", event, data);")
+        output.write("\n"+self.__indentChar+"statemachine_Compute(&"+prefix+", event, data);")
         output.write("\n}\n")
         
     '''
