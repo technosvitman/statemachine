@@ -136,7 +136,97 @@ statemachine_compute(&my_machine, my_event_eEVENT2, NULL);
 
 ## Code generator
 
-Work in progress ;)
+This lib integrate a generator to build code basis to build your own state machine.
 
+The input is a YAML file that describe the machine.
+
+The output files are : 
+
+* *.c file : the source code 
+* *.h file : the header
+* *.plantuml : UML diagramme in plantuml format
+* *.png : UML diagramme
+
+These files are stored into generator/output directory
+
+### Describe your state machine
+
+```yaml
+
+{
+    "machine" : "", # your state machine name
+    
+    "entry" : "", # the entry point state name
+    
+    # the states list
+    states : [
+        { 
+            "name" : "", # sthe state name
+            "comment" : "", # some information on the state
+
+            # transitions describes state change on a event
+            "transitions" : [
+                # a transition
+                { 
+                    "to" : "", # destination state name
+                    "event" : "" , # the event triggering the state change
+                    "comment" : "" # optional event description. You can set only one time the event comment
+                },
+                # another transition
+                {
+                    ...
+                }
+            ],
+
+            # actions describes state job without state change on event
+            "actions" : [
+                # an action
+                {
+                    "event" : "", # the event triggering action
+                    "action" : "", # action description
+                    "comment" : "" # optional event description. You can set only one time the event comment
+                },
+                #an other action
+                {
+                    ...
+                }
+            ]
+        },
+        # an other state
+        {
+             ...
+        }
+    ]
+}
+
+```
+
+
+### Build your machine
+
+Call the generator like this from the generator directory : 
+
+```
+    python StateMachineGenerator.py -i {path_to_your YAML file}
+```
+
+It stored automaticaly output files with the base name of yout yaml file
+
+You can set a custom output name with the '-o' option
+
+```
+    python StateMachineGenerator.py -i {path_to_your YAML file} -o {your_custom_name}
+ ```
+   
+### Example
+
+You can find the state machine example here : 
+
+* [description](generator/machine_example.yml)
+* [source](generator/output/machine_example.c)
+* [header](generator/output/machine_example.h)
+* [plantuml](generator/output/machine_example.plantuml)
+* [uml](generator/output/machine_example.png)
+  
 
 

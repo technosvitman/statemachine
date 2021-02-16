@@ -46,14 +46,12 @@ statemachineON_ENTER_CLBK(example_machine_State1)
         break;
 
         case example_machine_event_eEVENT4:
-            //TODO write your code here
-        break;
-
-        case example_machine_event_eEVENT5:
+            /* do event 4 job */
             //TODO write your code here
         break;
 
         case example_machine_event_eEVENT6:
+            /* do event 6 job */
             //TODO write your code here
         break;
 
@@ -87,6 +85,7 @@ statemachineON_ENTER_CLBK(example_machine_State2)
         break;
 
         case example_machine_event_eEVENT1:
+            /* do event 1 job */
             //TODO write your code here
         break;
 
@@ -136,6 +135,7 @@ statemachineON_ENTER_CLBK(example_machine_State3)
         break;
 
         case example_machine_event_eEVENT4:
+            /* do event 4 job */
             //TODO write your code here
         break;
 
@@ -172,6 +172,7 @@ statemachineON_ENTER_CLBK(example_machine_State4)
         break;
 
         case example_machine_event_eEVENT2:
+            /* do event 2 job */
             //TODO write your code here
         break;
 

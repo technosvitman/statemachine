@@ -3,31 +3,44 @@
 
 [*] -> State2
 
-State1 : on enter : State1_on_enter()
+State1 : //My first state//\n
+State1 : __on enter__ : **State1_on_enter()**
+State1 : > Do the enter job for state 1\n
 State1 --> State2 : Event1
 State1 --> State3 : Event2
 State1 --> State4 : Event3
-State1 --> State1 : Event4 | Event5 | Event6
+State1 --> State1 : Event4 : //do event 4 job//
+State1 --> State1 : Event6 : //do event 6 job//
 
 
-State2 : on exit : State2_on_exit()
+
+State2 : //My secibd state//\n
+State2 : __on exit__ : **State2_on_exit()**
+State2 : > Do the exit job for the state 2\n
 State2 --> State3 : Event3
 State2 --> State4 : Event4
 State2 --> State1 : Event5
-State2 --> State2 : Event1
+State2 --> State2 : Event1 : //do event 1 job//
 
 
-State3 : on enter : State3_on_enter()
-State3 : on exit : State3_on_exit()
+
+State3 : //My third state//\n
+State3 : __on enter__ : **State3_on_enter()**
+State3 : > Do the enter job for state 3\n
+State3 : __on exit__ : **State3_on_exit()**
+State3 : > Do the exit job for state 2\n
 State3 --> State4 : Event6
 State3 --> State2 : Event2
 State3 --> State1 : Event1
-State3 --> State3 : Event4
+State3 --> State3 : Event4 : //do event 4 job//
 
 
+
+State4 : //My fourth state//\n
 State4 --> State1 : Event6
 State4 --> State2 : Event5
-State4 --> State4 : Event2
+State4 --> State4 : Event2 : //do event 2 job//
+
 
 
 @enduml
