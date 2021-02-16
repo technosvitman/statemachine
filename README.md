@@ -69,14 +69,14 @@ const statemachine_state_t states[my_state_eCOUNT]={
 
 // in your initialization function
 
-void my_machine_init(void)
+void my_machine_Init(void)
 {
    // initialize machine
-  statemachine_init(&my_machine, my_state_eSTATE_3,     // entry state
+  statemachine_Init(&my_machine, my_state_eSTATE_3,     // entry state
 			states);
 
   // when ready, you can start the machine
-  statemachine_start(&my_machine);
+  statemachine_Start(&my_machine);
 }
 ```
 
@@ -99,7 +99,7 @@ statemachineDO_JOB_CLBK(my_state_eSTATE_2)
       break;
     case my_event_eEVENT_2:
       // some job with state change
-      statemachine_set_state(&my_machine, my_state_eSTATE3);
+      statemachine_Set_state(&my_machine, my_state_eSTATE3);
       break;  
     default:
     break;
@@ -125,12 +125,12 @@ statemachineON_EXIT_CLBK(my_state_eSTATE_2)
 
 ```C
 // every where in your code call this function
-statemachine_compute(&my_machine, my_event_eEVENT_1, data); 
+statemachine_Compute(&my_machine, my_event_eEVENT_1, data); 
 
 // in this exemple we send my_event_eEVENT_1 whith some data
 // you can also send nothing by passing NULL
 
-statemachine_compute(&my_machine, my_event_eEVENT2, NULL);
+statemachine_Compute(&my_machine, my_event_eEVENT2, NULL);
 
 ```
 
