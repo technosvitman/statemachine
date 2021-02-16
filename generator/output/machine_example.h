@@ -7,10 +7,25 @@
  */
 typedef enum
 {
-    example_machine_state_eState1 = 0,
+    /**
+     * @brief My first state
+     */
+    example_machine_state_eSTATE1 = 0,
+    /**
+     * @brief My secibd state
+     */
     example_machine_state_eSTATE2,
+    /**
+     * @brief My third state
+     */
     example_machine_state_eSTATE3,
+    /**
+     * @brief My fourth state
+     */
     example_machine_state_eSTATE4,
+    /**
+     * @brief amount of values
+     */
     example_machine_state_eCOUNT
 }
 example_machine_state_t;
@@ -20,12 +35,33 @@ example_machine_state_t;
  */
 typedef enum
 {
-    example_machine_event_eEvent1 = 0,
+    /**
+     * @brief my first event
+     */
+    example_machine_event_eEVENT1 = 0,
+    /**
+     * @brief my second event
+     */
     example_machine_event_eEVENT2,
+    /**
+     * @brief my third event
+     */
     example_machine_event_eEVENT3,
+    /**
+     * @brief my fourth event
+     */
     example_machine_event_eEVENT4,
-    example_machine_event_eEVENT5,
+    /**
+     * @brief my sixth event
+     */
     example_machine_event_eEVENT6,
+    /**
+     * @brief my fifth event
+     */
+    example_machine_event_eEVENT5,
+    /**
+     * @brief amount of values
+     */
     example_machine_event_eCOUNT
 }
 example_machine_event_t;

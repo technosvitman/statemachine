@@ -3,39 +3,48 @@
     "entry" : "State2",
     "states":[
         {   "name" : "State1", 
+            "comment" : "My first state",
             "transitions": [
-                {"to":"State2", "event" : "Event1"},
-                {"to":"State3", "event" : "Event2"},
-                {"to":"State4", "event" : "Event3"}
+                {"to":"State2", "event" : "Event1", "comment" : "my first event"},
+                {"to":"State3", "event" : "Event2", "comment" : "my second event"},
+                {"to":"State4", "event" : "Event3", "comment" : "my third event"}
             ], 
-            "actions" : ["Event4", "Event5", "Event6"],
-            "enter" : True,
-            "exit" : False },
+            "actions" : [
+                {"event":"Event4", "comment" : "my fourth event", "action" : "do event 4 job"},
+                {"event":"Event6", "comment" : "my sixth event", "action" : "do event 6 job"}],
+            "enter" : "Do the enter job for state 1",
+            "exit" : "" },
         {   "name" : "State2", 
+            "comment" : "My secibd state",
             "transitions": [
                 {"to":"State3", "event" : "Event3"},
                 {"to":"State4", "event" : "Event4"},
-                {"to":"State1", "event" : "Event5"}
+                {"to":"State1", "event" : "Event5", "comment" : "my fifth event"}
             ], 
-            "actions" : ["Event1"] ,
-            "enter" : False,
-            "exit" : True },
+            "actions" : [
+                {"event":"Event1", "action" : "do event 1 job"}] ,
+            "enter" : "",
+            "exit" : "Do the exit job for the state 2" },
         {   "name" : "State3", 
+            "comment" : "My third state",
             "transitions": [
                 {"to":"State4", "event" : "Event6"},
                 {"to":"State2", "event" : "Event2"},
                 {"to":"State1", "event" : "Event1"}
             ], 
-            "actions" : ["Event4"] ,
-            "enter" : True,
-            "exit" : True },
+            "actions" : [
+                {"event":"Event4", "action" : "do event 4 job"}] ,
+            "enter" : "Do the enter job for state 3",
+            "exit" : "Do the exit job for state 2" },
         {   "name" : "State4", 
+            "comment" : "My fourth state",
             "transitions": [
                 {"to":"State1", "event" : "Event6"},
                 {"to":"State2", "event" : "Event5"}
             ], 
-            "actions" : ["Event2"] ,
-            "enter" : False,
-            "exit" : False }
+            "actions" : [
+                {"event":"Event2", "action" : "do event 2 job"}] ,
+            "enter" : "",
+            "exit" : "" }
     ]
 }
