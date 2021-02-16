@@ -3,6 +3,7 @@ from machine import StateMachine
 
 import argparse
 import os
+from plantweb.render import render as render_uml
 
 
 class MachineGenerator():
@@ -268,47 +269,67 @@ class MachineGenerator():
         @brief build uml file
     ''' 
     def __buildUML(self, namebase):
-        output = open(os.path.dirname(os.path.realpath(__file__))+"/output/"+namebase+".plantuml", 'w+')
-                
-        output.write("\n@startuml\n")
+        
+        #build plantuml
+        plantuml = "\n@startuml\n"
         
         
-        output.write("\n[*] -> "+ self.__machine.getEntry()+"\n")
+        plantuml += "\n[*] -> "+ self.__machine.getEntry()+"\n"
         
         for state in self.__machine.getStates() :
-            output.write("\n")
-            output.write(state.getName()+" : //"+state.getComment()+"//\\n\n")
+            plantuml += "\n"
+            plantuml += state.getName()+" : //"+state.getComment()+"//\\n\n"
             if state.hasEnter():
-                output.write(state.getName()+" : __on enter__ : **"+state.getName()+"_on_enter()**\n")
-                output.write(state.getName()+" : > " + state.getEnter() + "\\n\n")
+                plantuml += state.getName()+" : __on enter__ : **"+state.getName()+"_on_enter()**\n"
+                plantuml += state.getName()+" : > " + state.getEnter() + "\\n\n"
             if state.hasExit():
-                output.write(state.getName()+" : __on exit__ : **"+state.getName()+"_on_exit()**\n")
-                output.write(state.getName()+" : > " + state.getExit() + "\\n\n")
+                plantuml += state.getName()+" : __on exit__ : **"+state.getName()+"_on_exit()**\n"
+                plantuml += state.getName()+" : > " + state.getExit() + "\\n\n"
             for trans in state.getTransitions():
                 events = trans.getEvents()[0]
                 for event in trans.getEvents()[1:] :
                     events += " || "+event
-                output.write(state.getName()+" --> "+trans.getState()+" : "+ events +"\n")
+                plantuml += state.getName()+" --> "+trans.getState()+" : "+ events +"\n"
             
             if len(state.getActions()):
                 for event, action in state.getActions().items():
-                    output.write(state.getName()+" --> "+state.getName()+" : " + event)
+                    plantuml += state.getName()+" --> "+state.getName()+" : " + event
                     if action : 
-                        output.write(" : //"+action+"//")
-                    output.write("\n")
-                output.write("\n")
-            output.write("\n")
+                        plantuml += " : //"+action+"//"
+                    plantuml += "\n"
+                plantuml += "\n"
+            plantuml += "\n"
         
-        output.write("\n@enduml\n")
+        plantuml += "\n@enduml\n"
+        
+        output = open(os.path.dirname(os.path.realpath(__file__))+"/output/"+namebase+".plantuml", 'w+')
+        output.write(plantuml)
+        
+        #render uml
+        uml = render_uml( plantuml, engine='plantuml', format='png', cacheopts={ 'use_cache': False} )
+        
+        output = open(os.path.dirname(os.path.realpath(__file__))+"/output/"+namebase+".png", 'wb+')
+        for b in uml:
+            if isinstance(b, bytes):
+                output.write(b)
+            elif isinstance(b, str):
+                output.write(bytes(b, 'UTF8'))
+            
         
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Script so useful.')
     parser.add_argument("-i", type=str, default=os.path.dirname(os.path.realpath(__file__))+"/machine_example.yml")
-    parser.add_argument("-o", type=str, default="machine_example")
+    parser.add_argument("-o", type=str, default="")
     
     args = parser.parse_args()
     
     gene = MachineGenerator()
     gene.fromFile(args.i)
-    gene.compute(args.o)
+    
+    output = args.o
+    if output == "":
+        head, tail = os.path.split(args.i)
+        output = os.path.splitext(tail)[0]
+    
+    gene.compute(output)
