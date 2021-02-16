@@ -151,6 +151,55 @@ These files are stored into generator/output directory
 
 ### Describe your state machine
 
+```yaml
+
+{
+    "machine" : "", # your state machine name
+    
+    "entry" : "", # the entry point state name
+    
+    # the states list
+    states : [
+        { 
+            "name" : "", # sthe state name
+            "comment" : "", # some information on the state
+
+            # transitions describes state change on a event
+            "transitions" : [
+                # a transition
+                { 
+                    "to" : "", # destination state name
+                    "event" : "" , # the event triggering the state change
+                    "comment" : "" # optional event description. You can set only one time the event comment
+                },
+                # another transition
+                {
+                    ...
+                }
+            ],
+
+            # actions describes state job without state change on event
+            "actions" : [
+                # an action
+                {
+                    "event" : "", # the event triggering action
+                    "action" : "", # action description
+                    "comment" : "" # optional event description. You can set only one time the event comment
+                },
+                #an other action
+                {
+                    ...
+                }
+            ]
+        },
+        # an other state
+        {
+             ...
+        }
+    ]
+}
+
+```
 
 
 ### Build your machine
