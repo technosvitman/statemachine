@@ -67,7 +67,7 @@ typedef enum
 example_machine_event_t;
 
 
-void example_machine_init( void );
-void example_machine_compute( example_machine_event_t event, void * data );
+void example_machine_Init( void );
+void example_machine_Compute( example_machine_event_t event, void * data );
 
 #endif
