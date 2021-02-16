@@ -32,7 +32,7 @@ void statemachine_Init(statemachine_t * machine, statemachine_state_id_t first_s
   * @param do_job global do job action
   * @param on_exit global on exit action
   */
-void statemachine_Set_golbal(statemachine_t * machine, statemachine_enter_clbck_t on_enter, statemachine_do_clbck_t do_job,
+void statemachine_Set_global(statemachine_t * machine, statemachine_enter_clbck_t on_enter, statemachine_do_clbck_t do_job,
 							statemachine_exit_clbck_t on_exit)
 {
 	machine->global_on_enter = on_enter;
