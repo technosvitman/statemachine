@@ -218,7 +218,15 @@ You can set a custom output name with the '-o' option
     python StateMachineGenerator.py -i {path_to_your YAML file} -o {your_custom_name}
  ```
    
- 
+### Example
+
+You can find the state machine example here : 
+
+* [description](generator/machine_example.yml)
+* [source](generator/output/machine_example.c)
+* [header](generator/output/machine_example.h)
+* [plantuml](generator/output/machine_example.plantuml)
+* [uml](generator/output/machine_example.png)
   
 
 
