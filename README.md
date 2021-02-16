@@ -136,7 +136,40 @@ statemachine_compute(&my_machine, my_event_eEVENT2, NULL);
 
 ## Code generator
 
-Work in progress ;)
+This lib integrate a generator to build code basis to build your own state machine.
 
+The input is a YAML file that describe the machine.
+
+The output files are : 
+
+* *.c file : the source code 
+* *.h file : the header
+* *.plantuml : UML diagramme in plantuml format
+* *.png : UML diagramme
+
+These files are stored into generator/output directory
+
+### Describe your state machine
+
+
+
+### Build your machine
+
+Call the generator like this from the generator directory : 
+
+```
+    python StateMachineGenerator.py -i {path_to_your YAML file}
+```
+
+It stored automaticaly output files with the base name of yout yaml file
+
+You can set a custom output name with the '-o' option
+
+```
+    python StateMachineGenerator.py -i {path_to_your YAML file} -o {your_custom_name}
+ ```
+   
+ 
+  
 
 
