@@ -222,6 +222,15 @@ class MachineGenerator():
         output.write("\n *                  States Callbacks section                     *")
         output.write("\n *****************************************************************/\n\n")
         
+        output.write("/**\n")
+        output.write(" * @brief set machine state\n")
+        output.write(" */\n")
+        output.write("static inline void " + prefix + "_set_state( ")
+        output.write(prefix + "_state_t state )\n")
+        output.write("{\n")
+        output.write(self.__indentChar+"statemachine_Set_state( &" + prefix + ", state);\n")
+        output.write("}\n\n")
+        
         declaration = ""
         
         for state in self.__machine.getStates() :
