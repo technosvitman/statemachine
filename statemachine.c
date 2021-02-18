@@ -28,16 +28,13 @@ void statemachine_Init(statemachine_t * machine, statemachine_state_id_t first_s
 /**
   * @brief set global states actions
   * @param machine state machine to change
-  * @param on_enter global on enter action
-  * @param do_job global do job action
-  * @param on_exit global on exit action
+  * @param global_action a state that represent global action
   */
-void statemachine_Set_global(statemachine_t * machine, statemachine_enter_clbck_t on_enter, statemachine_do_clbck_t do_job,
-							statemachine_exit_clbck_t on_exit)
+void statemachine_Set_global(statemachine_t * machine, statemachine_state_t global_action)
 {
-	machine->global_on_enter = on_enter;
-	machine->global_do_job = do_job;
-	machine->global_on_exit = on_exit;
+	machine->global_on_enter = global_action.on_enter;
+	machine->global_do_job = global_action.do_job;
+	machine->global_on_exit = global_action.on_exit;
 }
 
 /**
