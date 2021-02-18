@@ -7,6 +7,11 @@
 #   define STATE_MACHINE_H
 
 
+#ifndef NULL
+#define NULL ((void *)0)
+#endif
+
+
 /**
  * @brief build state on enter callback name
  * @param state_name the state name
