@@ -115,12 +115,13 @@ class MachineGenerator():
     def __buildStateDoJob(self, state):
         output = ""
         prefix = self.__machine.getName() + "_machine_"
-        state_name = prefix+state.getName()
+        name = state.getName()
+        state_name = prefix+name
         
         output += "/**\n"
-        output += " * @brief do job for state "+state.getName()+"\n"
+        output += " * @brief do job for state "+name+"\n"
         output += " */\n"
-        output += "statemachineON_ENTER_CLBK("+state_name+")\n"
+        output += "statemachineDO_JOB_CLBK("+state_name+")\n"
         output += "{\n"
         output += self.__indentChar+"statemachineNO_DATA(); //Remove this line to use data\n\n"
         output += self.__indentChar+"switch(statemachineEVENT_ID())\n"
@@ -157,11 +158,12 @@ class MachineGenerator():
     def __buildStateCallbacks(self, state):
         output = ""
         prefix = self.__machine.getName() + "_machine_"
-        state_name = prefix+state.getName()
+        name = state.getName()            
+        state_name = prefix+name
                         
         if state.hasEnter() :
             output += "/**\n"
-            output += " * @brief on enter state "+state.getName()+"\n"
+            output += " * @brief on enter state "+name+"\n"
             output += " */\n"
             output += "statemachineON_ENTER_CLBK("+state_name+")\n"
             output += "{\n"
@@ -172,7 +174,7 @@ class MachineGenerator():
                 
         if state.hasExit() :
             output += "/**\n"
-            output += " * @brief on exit state "+state.getName()+"\n"
+            output += " * @brief on exit state "+name+"\n"
             output += " */\n"
             output += "statemachineON_EXIT_CLBK("+state_name+")\n"
             output += "{\n"
@@ -216,7 +218,7 @@ class MachineGenerator():
         
         
         prefix = self.__machine.getName() + "_machine"
-        output.write("\nstate_machine_t "+prefix+";\n")
+        output.write("\nstatemachine_t "+prefix+";\n")
         output.write("\n\n\n")
         output.write("\n/*****************************************************************")
         output.write("\n *                  States Callbacks section                     *")
@@ -230,6 +232,11 @@ class MachineGenerator():
         output.write("{\n")
         output.write(self.__indentChar+"statemachine_Set_state( &" + prefix + ", state);\n")
         output.write("}\n\n")
+        
+        global_action = self.__machine.getGlobal()
+        
+        if global_action :
+            output.write(self.__buildStateCallbacks(global_action));
         
         declaration = ""
         
@@ -261,15 +268,21 @@ class MachineGenerator():
         output.write("\n{")
         output.write("\n"+self.__indentChar+"statemachine_Init(&"+prefix+", ")
         output.write(prefix+"_state_e"+self.__machine.getEntry().upper()+", "+prefix+"_states);\n")
-        output.write("\n"+self.__indentChar+"statemachine_Start(&"+prefix+");")
-        output.write("\n}\n")
+        output.write("\n"+self.__indentChar+"statemachine_Start(&"+prefix+");\n")
+        
+        if global_action :
+            declaration = self.__buildStateDeclaration(global_action)
+            output.write("\n"+self.__indentChar+"statemachine_Set_global(&"+prefix+", "+declaration+");\n")
+            
+        
+        output.write("}\n")
         #write compute function
         output.write("\n/**\n")
         output.write(" * @brief compute "+self.__machine.getName()+" machine\n")
         output.write(" * @param event the "+self.__machine.getName()+" event\n")
         output.write(" * @brief data attached event's data or NULL\n")
         output.write(" */\n")
-        output.write("\nvoid "+prefix+"_Compute( "+prefix+"_event_t event, void * data );")
+        output.write("\nvoid "+prefix+"_Compute( "+prefix+"_event_t event, void * data )")
         output.write("\n{")
         output.write("\n"+self.__indentChar+"statemachine_Compute(&"+prefix+", event, data);")
         output.write("\n}\n")
@@ -281,6 +294,32 @@ class MachineGenerator():
         
         #build plantuml
         plantuml = "\n@startuml\n"
+        
+        name = self.__machine.getName()
+        
+        global_action = self.__machine.getGlobal()
+        if global_action : 
+            plantuml += "\n[*] -> "+name+"\n"
+            plantuml += "state "+name+"{\n"
+            if global_action.hasEnter():
+                plantuml += name+" : __global on enter__ : **global_on_enter()**\n"
+                plantuml += name+" : > " + global_action.getEnter() + "\\n\n"
+            if global_action.hasExit():
+                plantuml += name+" : __global on exit__ : **global_on_exit()**\n"
+                plantuml += name+" : > " + global_action.getExit() + "\\n\n"
+            for trans in global_action.getTransitions():
+                events = trans.getEvents()[0]
+                for event in trans.getEvents()[1:] :
+                    events += " || "+event
+                plantuml += name+" --> "+trans.getState()+" : "+ events +"\n"            
+            if len(global_action.getActions()):
+                for event, action in global_action.getActions().items():
+                    plantuml += name+" --> "+name+" : " + event
+                    if action : 
+                        plantuml += " : //"+action+"//"
+                    plantuml += "\n"
+                plantuml += "\n"
+            plantuml += "\n"
         
         
         plantuml += "\n[*] -> "+ self.__machine.getEntry()+"\n"
@@ -308,6 +347,10 @@ class MachineGenerator():
                     plantuml += "\n"
                 plantuml += "\n"
             plantuml += "\n"
+        
+        
+        if global_action : 
+            plantuml += "}\n"
         
         plantuml += "\n@enduml\n"
         

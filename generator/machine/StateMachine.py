@@ -15,6 +15,7 @@ class StateMachine():
         self.__entry = entry
         self.__events = {}
         self.__states = []
+        self.__global = None
         
     '''
         @brief get machine name
@@ -70,12 +71,80 @@ class StateMachine():
             self.__events[event]=comment
         
     '''
+        @brief set global state action
+        @param state the state object that represent global action
+    '''            
+    def setGlobal(self, state):
+        self.__global = state
+        
+    '''
+        @brief return global state action
+    '''            
+    def getGlobal(self):
+        return self.__global
+        
+    '''
         @brief append a state to the machine
         @param state the state object
     '''            
     def appendState(self, state):
         if state not in self.__states:
             self.__states.append(state)
+            
+    '''
+        @brief extract state from yaml
+        @param state_def yaml definition
+        @param name state name
+    '''
+    def extractState(self, state_def, name):
+    
+        if name == "" :
+            name = "global"
+            comment = "Global action"
+        else:
+            comment = state_def.get('comment', '')
+            assert comment != None, "state may have comment"
+        
+        hasenter = state_def.get('enter')
+        assert hasenter != None, "state may have enter information"
+        
+        hasexit = state_def.get('exit')
+        assert hasexit != None, "state may have exit info"
+        
+        
+        state = State(name, comment, hasenter, hasexit)
+        
+        transition_event = []
+        transition_state = []
+        used_states = []
+        
+        transitions = state_def.get('transitions')
+        assert transitions != None, "state may have transitions list" 
+        for trans in transitions :
+            event = trans.get('event')
+            assert event != None, "transition may have event"
+            to = trans.get('to')
+            assert to != None, "transition may have destination state ('to')"
+            if to not in used_states :
+                used_states.append(to)
+            transition_event.append(event)
+            state.appendTransition(to, event)
+            self.appendEvent(event, trans.get("comment", ""))
+        
+        actions = state_def.get('actions')
+        assert actions != None, "state may have action list( also if empty) " 
+        for action in actions :
+            event = action.get('event')
+            assert event not in transition_event, 'action event cannot be set in a transition too : '+event
+            state.appendAction(event, action.get("action", "") )
+            self.appendEvent(event, action.get("comment", ""))
+            
+        if name == "global" :            
+            self.setGlobal(state)
+        else :            
+            self.appendState(state)
+        
+        return used_states
         
     '''
         @brief build StateMachine from file
@@ -95,6 +164,10 @@ class StateMachine():
         
         declared_states = []
         used_states = []
+                
+        global_action = yaml_content.get('global', None)
+        if global_action :
+            used_states += machine.extractState(global_action, "")
         
         states = yaml_content.get('states')
         
@@ -105,43 +178,7 @@ class StateMachine():
             assert name != None, "state may have name"
             assert name not in declared_states, 'state cannot be declared twice %s'.arg(name)
             declared_states.append(name)
-            
-            comment = state_def.get('comment')
-            assert comment != None, "state may have comment"
-            
-            hasenter = state_def.get('enter')
-            assert hasenter != None, "state may have enter information"
-            
-            hasexit = state_def.get('exit')
-            assert hasexit != None, "state may have exit info"
-            
-            
-            state = State(name, comment, hasenter, hasexit)
-            
-            transition_event = []
-            transition_state = []
-            
-            transitions = state_def.get('transitions')
-            assert transitions != None, "state may have transitions list" 
-            for trans in transitions :
-                event = trans.get('event')
-                assert event != None, "transition may have event"
-                to = trans.get('to')
-                assert to != None, "transition may have destination state ('to')"
-                if to not in used_states :
-                    used_states.append(to)
-                transition_event.append(event)
-                state.appendTransition(to, event)
-                machine.appendEvent(event, trans.get("comment", ""))
-            
-            actions = state_def.get('actions')
-            assert actions != None, "state may have action list( also if empty) " 
-            for action in actions :
-                event = action.get('event')
-                assert event not in transition_event, 'action event cannot be set in a transition too : '+event
-                state.appendAction(event, action.get("action", "") )
-                machine.appendEvent(event, action.get("comment", ""))
-            machine.appendState(state)
+            used_states += machine.extractState(state_def, name)
         
         for used_state in used_states :
             assert used_state in declared_states, 'a transition uses a not declared state : '+used_state        
