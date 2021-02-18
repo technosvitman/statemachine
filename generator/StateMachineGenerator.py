@@ -302,10 +302,10 @@ class MachineGenerator():
             plantuml += "\n[*] -> "+name+"\n"
             plantuml += "state "+name+"{\n"
             if global_action.hasEnter():
-                plantuml += name+" : __global on enter__ : **global_on_enter()**\n"
+                plantuml += name+" : **global entry** : __global_on_enter()__\n"
                 plantuml += name+" : > " + global_action.getEnter() + "\\n\n"
             if global_action.hasExit():
-                plantuml += name+" : __global on exit__ : **global_on_exit()**\n"
+                plantuml += name+" : **global exit** : __global_on_exit()__\n"
                 plantuml += name+" : > " + global_action.getExit() + "\\n\n"
             for trans in global_action.getTransitions():
                 events = trans.getEvents()[0]
@@ -314,9 +314,9 @@ class MachineGenerator():
                 plantuml += name+" --> "+trans.getState()+" : "+ events +"\n"            
             if len(global_action.getActions()):
                 for event, action in global_action.getActions().items():
-                    plantuml += name+" --> "+name+" : " + event
+                    plantuml += name+" : **On** __" + event
                     if action : 
-                        plantuml += " : //"+action+"//"
+                        plantuml += "__ / //"+action+"//"
                     plantuml += "\n"
                 plantuml += "\n"
             plantuml += "\n"
@@ -328,10 +328,10 @@ class MachineGenerator():
             plantuml += "\n"
             plantuml += state.getName()+" : //"+state.getComment()+"//\\n\n"
             if state.hasEnter():
-                plantuml += state.getName()+" : __on enter__ : **"+state.getName()+"_on_enter()**\n"
+                plantuml += state.getName()+" : **Entry** / __"+state.getName()+"_on_enter()__\n"
                 plantuml += state.getName()+" : > " + state.getEnter() + "\\n\n"
             if state.hasExit():
-                plantuml += state.getName()+" : __on exit__ : **"+state.getName()+"_on_exit()**\n"
+                plantuml += state.getName()+" : **Exit** / __"+state.getName()+"_on_exit()__\n"
                 plantuml += state.getName()+" : > " + state.getExit() + "\\n\n"
             for trans in state.getTransitions():
                 events = trans.getEvents()[0]
@@ -341,9 +341,9 @@ class MachineGenerator():
             
             if len(state.getActions()):
                 for event, action in state.getActions().items():
-                    plantuml += state.getName()+" --> "+state.getName()+" : " + event
+                    plantuml += state.getName()+" : **On** __" + event
                     if action : 
-                        plantuml += " : //"+action+"//"
+                        plantuml += "__ / //"+action+"//"
                     plantuml += "\n"
                 plantuml += "\n"
             plantuml += "\n"

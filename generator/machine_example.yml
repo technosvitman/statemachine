@@ -1,6 +1,15 @@
 {
     "machine":"example",
     "entry" : "State2", 
+    "global": {   
+            "transitions": [
+                {"to":"State4", "event" : "Event7", "comment" : "my seventh event"}
+            ], 
+            "actions" : [
+                {"event":"Event4", "action" : "do global event 4 job"},
+                {"event":"Event6", "action" : "do global event 6 job"}],
+            "enter" : "Do the global on enter job",
+            "exit" : "Do the global on exit job" },
     "states":[
         {   "name" : "State1", 
             "comment" : "My first state",
