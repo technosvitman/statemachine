@@ -8,7 +8,9 @@ example : > Do the global on enter job\n
 example : **global exit** : __global_on_exit()__
 example : > Do the global on exit job\n
 example --> State4 : Event7
+
 example : **On** __Event4__ / //do global event 4 job//
+
 example : **On** __Event6__ / //do global event 6 job//
 
 
@@ -19,9 +21,13 @@ State1 : //My first state//\n
 State1 : **Entry** / __State1_on_enter()__
 State1 : > Do the enter job for state 1\n
 State1 --> State2 : Event1
+
 State1 --> State3 : Event2
+
 State1 --> State4 : Event3
+
 State1 : **On** __Event4__ / //do event 4 job//
+
 State1 : **On** __Event6__ / //do event 6 job//
 
 
@@ -30,8 +36,11 @@ State2 : //My secibd state//\n
 State2 : **Exit** / __State2_on_exit()__
 State2 : > Do the exit job for the state 2\n
 State2 --> State3 : Event3
+
 State2 --> State4 : Event4
+
 State2 --> State1 : Event5
+
 State2 : **On** __Event1__ / //do event 1 job//
 
 
@@ -42,15 +51,20 @@ State3 : > Do the enter job for state 3\n
 State3 : **Exit** / __State3_on_exit()__
 State3 : > Do the exit job for state 2\n
 State3 --> State4 : Event6
+
 State3 --> State2 : Event2
+
 State3 --> State1 : Event1
+
 State3 : **On** __Event4__ / //do event 4 job//
 
 
 
 State4 : //My fourth state//\n
 State4 --> State1 : Event6
+
 State4 --> State2 : Event5
+
 State4 : **On** __Event2__ / //do event 2 job//
 
 

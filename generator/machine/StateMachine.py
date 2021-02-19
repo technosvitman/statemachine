@@ -69,7 +69,17 @@ class StateMachine():
             if comment: 
                 self.__events[event] = comment
         else :
-            self.__events[event]=comment
+            events = {}
+            keys = list(self.__events.keys())
+            keys.append(event)
+            keys.sort()
+            pos = keys.index(event)
+            for k in keys[:pos] :
+                events[k] = self.__events[k]
+            self.__events[event] = comment
+            for k in keys[pos:] :
+                events[k] = self.__events[k]
+            self.__events = events
         
     '''
         @brief set global state action
@@ -123,21 +133,21 @@ class StateMachine():
         assert actions != None, "state may have action list( also if empty) " 
         
         for action in actions :
-            event = action.get('event')
-            assert event != None, "action may have event"
+            events = action.get('events')
+            assert events != None, "action may have event list"
                         
             to = action.get('to', None)
             job = action.get('job', None)
             
             assert not (to == None and job == None), "an action may at least have an action or a target state"
             
-            state.appendAction(StateAction(event, to, job))
+            state.appendAction(StateAction(events, to, job))
             
-            if isinstance(event, str):
-                self.appendEvent(event, action.get("comment", ""))
-            else :
-                for e in event :
-                    self.appendEvent(e, action.get("comment", ""))
+           
+            for e in events :
+                ename = e.get("name", None)
+                assert ename, "event name should be set"
+                self.appendEvent(ename, e.get("comment", ""))
                     
         if name == "global" :            
             self.setGlobal(state)

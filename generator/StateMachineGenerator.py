@@ -131,7 +131,7 @@ class MachineGenerator():
             job = action.getJob()
             to = action.getState()
             for event in action.getEvents(): 
-                output += self.__indentChar+self.__indentChar+"case "+prefix+"event_e"+event.upper()+":\n"
+                output += self.__indentChar+self.__indentChar+"case "+prefix+"event_e"+event['name'].upper()+":\n"
                 if job :
                     output += self.__indentChar+self.__indentChar+self.__indentChar+"/* "+job+" */\n"
                 output += self.__indentChar+self.__indentChar+self.__indentChar+"//TODO write your code here\n"
@@ -292,7 +292,7 @@ class MachineGenerator():
         #build plantuml
         plantuml = "\n@startuml\n"
         
-        name = self.__machine.getName()
+        name = self.__machine.getName().upper()
         
         global_action = self.__machine.getGlobal()
         if global_action : 
@@ -307,9 +307,9 @@ class MachineGenerator():
             
             for action in global_action.getActions():
                 
-                events = action.getEvents()[0]
+                events = action.getEvents()[0]["name"]
                 for event in action.getEvents()[1:] :
-                    events += " || "+event
+                    events += " || "+event["name"]
                 job = action.getJob()
                 if job :
                     plantuml += name+" : **On** __" + events
@@ -336,9 +336,9 @@ class MachineGenerator():
                 
             for action in state.getActions():
                 
-                events = action.getEvents()[0]
+                events = action.getEvents()[0]["name"]
                 for event in action.getEvents()[1:] :
-                    events += " || "+event
+                    events += " || "+event["name"]
                 job = action.getJob()
                 if job :
                     plantuml += state.getName()+" : **On** __" + events

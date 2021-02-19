@@ -41,9 +41,9 @@ class StateAction():
         @return the string
     '''  
     def __str__(self):
-        output = self.__event[0]
+        output = self.__event[0]["name"]
         for event in self.__event[1:]:
-            output += " | " + event
+            output += " | " + event["name"]
         return "on ("+ output + ")-> " + str(self.__to) +" do "+str(self.__job)
     
 

@@ -46,12 +46,12 @@ statemachineDO_JOB_CLBK(example_machine_global)
         case example_machine_event_eEVENT4:
             /* do global event 4 job */
             //TODO write your code here
-        break;
+                break;
 
         case example_machine_event_eEVENT6:
             /* do global event 6 job */
             //TODO write your code here
-        break;
+                break;
 
         default:
         break;
@@ -101,12 +101,12 @@ statemachineDO_JOB_CLBK(example_machine_State1)
         case example_machine_event_eEVENT4:
             /* do event 4 job */
             //TODO write your code here
-        break;
+                break;
 
         case example_machine_event_eEVENT6:
             /* do event 6 job */
             //TODO write your code here
-        break;
+                break;
 
         default:
         break;
@@ -140,7 +140,7 @@ statemachineDO_JOB_CLBK(example_machine_State2)
         case example_machine_event_eEVENT1:
             /* do event 1 job */
             //TODO write your code here
-        break;
+                break;
 
         default:
         break;
@@ -190,7 +190,7 @@ statemachineDO_JOB_CLBK(example_machine_State3)
         case example_machine_event_eEVENT4:
             /* do event 4 job */
             //TODO write your code here
-        break;
+                break;
 
         default:
         break;
@@ -227,7 +227,7 @@ statemachineDO_JOB_CLBK(example_machine_State4)
         case example_machine_event_eEVENT2:
             /* do event 2 job */
             //TODO write your code here
-        break;
+                break;
 
         default:
         break;
