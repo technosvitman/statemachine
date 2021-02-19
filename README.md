@@ -157,12 +157,12 @@ These files are stored into generator/output directory
     "machine" : "", # your state machine name
     
     "entry" : "", # the entry point state name
-    
+
     "global" : # global state action 
     {
-    	"actions" : [], #see states
-    	"enter" : "", #see states
-    	"exit" : "", #see states
+        "actions" : [], #see states
+        "enter" : "", #see states 
+        "exit" : "", #see states
     }
     
     # the states list
@@ -179,7 +179,7 @@ These files are stored into generator/output directory
                 { 
                     "to" : "", # destination state name
                     "events" : 
-                    [ 	# the list of events triggering the state change
+                    [   # the list of events triggering the state change
                         { 
                             "name" : "", #the event name
                             "comment" : "" # optional event description. You can set only one time the event comment
