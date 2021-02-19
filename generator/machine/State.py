@@ -1,35 +1,40 @@
 
 
-class StateTransition():
+class StateAction():
     '''
-        @brief build state transition
-        @param to the target state
+        @brief build state action
         @param event the event triggering the transition
+        @param to the target state if any
+        @param job the job to do if any
     '''
-    def __init__(self, to, event):
+    def __init__(self, event, to=None, job=None):
         self.__to = to
-        self.__event = [event]
+        self.__job = job
+        if isinstance(event, str) :
+            self.__event = [event]
+        else :
+            self.__event = event
         
     '''
-        @brief get transition state target
+        @brief get action state target
         @return state name
     '''            
     def getState(self) :
         return self.__to
         
     '''
-        @brief get transition event
+        @brief get action event
         @return event
     '''            
     def getEvents(self) :
         return self.__event
         
     '''
-        @brief append transition event
-        @param event event
+        @brief get action job
+        @return job
     '''            
-    def append(self, event) :
-        self.__event.append(event)
+    def getJob(self) :
+        return self.__job
     
     '''
         @brief string represtation for statemachine
@@ -39,7 +44,7 @@ class StateTransition():
         output = self.__event[0]
         for event in self.__event[1:]:
             output += " | " + event
-        return "on ("+ output + ")-> " + self.__to
+        return "on ("+ output + ")-> " + str(self.__to) +" do "+str(self.__job)
     
 
 class State():
@@ -56,8 +61,7 @@ class State():
         self.__comment = comment
         self.__enter = enterBrief
         self.__exit = exitBrief
-        self.__actions = {}
-        self.__transitions = []
+        self.__actions = []
         
     '''
         @brief get state name
@@ -79,13 +83,6 @@ class State():
     '''            
     def getActions(self) :
         return self.__actions
-        
-    '''
-        @brief get state transitions
-        @return transition list
-    '''            
-    def getTransitions(self) :
-        return self.__transitions
         
     '''
         @brief get if has enter callback
@@ -116,38 +113,21 @@ class State():
         return self.__exit
         
     '''
-        @brief append action triggered by event
-        @param event the event name to append
-        @param action the action brief
-    '''            
-    def appendAction(self, event, action):
-        self.__actions[event]=action
-        
-    '''
-        @brief append a transition
+        @brief append a action
         @param state the state object
     '''            
-    def appendTransition(self, state, event):
-        for trans in self.__transitions :
-            if trans.getState() == state :
-                trans.append(event)
-                return
-        self.__transitions.append( StateTransition(state, event) )
+    def appendAction(self, action):
+        self.__actions.append( action )
 
     '''
         @brief string represtation for statemachine
         @return the string
     '''  
     def __str__(self):
-        output = "State(" + self.__name +"): Transitions( "
-        
-        for trans in self.__transitions :
-            output += str(trans) + ', '
-        
-        output += "), Actions( "
+        output = "State(" + self.__name +"): Actions( "
         
         for action in self.__actions :
-            output += action + ', '
+            output += str(action)
             
         return output + ")"
         

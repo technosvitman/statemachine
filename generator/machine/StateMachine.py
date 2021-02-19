@@ -1,5 +1,6 @@
 
 from .State import State
+from .State import StateAction
 
 import yaml
 
@@ -114,31 +115,30 @@ class StateMachine():
         
         state = State(name, comment, hasenter, hasexit)
         
-        transition_event = []
-        transition_state = []
+        action_event = []
+        action_state = []
         used_states = []
-        
-        transitions = state_def.get('transitions')
-        assert transitions != None, "state may have transitions list" 
-        for trans in transitions :
-            event = trans.get('event')
-            assert event != None, "transition may have event"
-            to = trans.get('to')
-            assert to != None, "transition may have destination state ('to')"
-            if to not in used_states :
-                used_states.append(to)
-            transition_event.append(event)
-            state.appendTransition(to, event)
-            self.appendEvent(event, trans.get("comment", ""))
         
         actions = state_def.get('actions')
         assert actions != None, "state may have action list( also if empty) " 
+        
         for action in actions :
             event = action.get('event')
-            assert event not in transition_event, 'action event cannot be set in a transition too : '+event
-            state.appendAction(event, action.get("action", "") )
-            self.appendEvent(event, action.get("comment", ""))
+            assert event != None, "action may have event"
+                        
+            to = action.get('to', None)
+            job = action.get('job', None)
             
+            assert not (to == None and job == None), "an action may at least have an action or a target state"
+            
+            state.appendAction(StateAction(event, to, job))
+            
+            if isinstance(event, str):
+                self.appendEvent(event, action.get("comment", ""))
+            else :
+                for e in event :
+                    self.appendEvent(e, action.get("comment", ""))
+                    
         if name == "global" :            
             self.setGlobal(state)
         else :            
