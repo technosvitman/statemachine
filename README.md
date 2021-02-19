@@ -174,7 +174,7 @@ These files are stored into generator/output directory
 
             # describes state change and/or action on a event
             "actions" : 
-	    [
+            [
                 # an action
                 { 
                     "to" : "", # destination state name
