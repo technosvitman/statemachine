@@ -127,21 +127,18 @@ class MachineGenerator():
         output += self.__indentChar+"switch(statemachineEVENT_ID())\n"
         output += self.__indentChar+"{\n"
         
-        for trans in state.getTransitions():
-            for event in trans.getEvents(): 
-                output += self.__indentChar+self.__indentChar+"case "+prefix+"event_e"+event.upper()+":\n"
+        for action in state.getActions():
+            job = action.getJob()
+            to = action.getState()
+            for event in action.getEvents(): 
+                output += self.__indentChar+self.__indentChar+"case "+prefix+"event_e"+event['name'].upper()+":\n"
+                if job :
+                    output += self.__indentChar+self.__indentChar+self.__indentChar+"/* "+job+" */\n"
                 output += self.__indentChar+self.__indentChar+self.__indentChar+"//TODO write your code here\n"
                 output += self.__indentChar+self.__indentChar
-                output += self.__indentChar+prefix+"set_state( "+prefix+"state_e"+trans.getState().upper()+" );\n"
+                if to :
+                    output += self.__indentChar+prefix+"set_state( "+prefix+"state_e"+to.upper()+" );\n"
                 output += self.__indentChar+self.__indentChar+"break;\n\n"
-        
-        for event, action in state.getActions().items():
-            output += self.__indentChar+self.__indentChar+"case "+prefix+"event_e"+event.upper()+":\n"
-            if action :
-                output += self.__indentChar+self.__indentChar+self.__indentChar+"/* "+action+" */\n"
-            output += self.__indentChar+self.__indentChar+self.__indentChar+"//TODO write your code here\n"
-            output += self.__indentChar+self.__indentChar+"break;\n\n"
-        
         
         output += self.__indentChar+self.__indentChar+"default:\n"
         output += self.__indentChar+self.__indentChar+"break;\n"
@@ -295,7 +292,7 @@ class MachineGenerator():
         #build plantuml
         plantuml = "\n@startuml\n"
         
-        name = self.__machine.getName()
+        name = self.__machine.getName().upper()
         
         global_action = self.__machine.getGlobal()
         if global_action : 
@@ -307,17 +304,20 @@ class MachineGenerator():
             if global_action.hasExit():
                 plantuml += name+" : **global exit** : __global_on_exit()__\n"
                 plantuml += name+" : > " + global_action.getExit() + "\\n\n"
-            for trans in global_action.getTransitions():
-                events = trans.getEvents()[0]
-                for event in trans.getEvents()[1:] :
-                    events += " || "+event
-                plantuml += name+" --> "+trans.getState()+" : "+ events +"\n"            
-            if len(global_action.getActions()):
-                for event, action in global_action.getActions().items():
-                    plantuml += name+" : **On** __" + event
-                    if action : 
-                        plantuml += "__ / //"+action+"//"
+            
+            for action in global_action.getActions():
+                
+                events = action.getEvents()[0]["name"]
+                for event in action.getEvents()[1:] :
+                    events += " || "+event["name"]
+                job = action.getJob()
+                if job :
+                    plantuml += name+" : **On** __" + events
+                    plantuml += "__ / //"+job+"//"
                     plantuml += "\n"
+                to = action.getState()
+                if to :
+                    plantuml += name+" --> "+to+" : "+ events +"\n"
                 plantuml += "\n"
             plantuml += "\n"
         
@@ -333,18 +333,20 @@ class MachineGenerator():
             if state.hasExit():
                 plantuml += state.getName()+" : **Exit** / __"+state.getName()+"_on_exit()__\n"
                 plantuml += state.getName()+" : > " + state.getExit() + "\\n\n"
-            for trans in state.getTransitions():
-                events = trans.getEvents()[0]
-                for event in trans.getEvents()[1:] :
-                    events += " || "+event
-                plantuml += state.getName()+" --> "+trans.getState()+" : "+ events +"\n"
-            
-            if len(state.getActions()):
-                for event, action in state.getActions().items():
-                    plantuml += state.getName()+" : **On** __" + event
-                    if action : 
-                        plantuml += "__ / //"+action+"//"
+                
+            for action in state.getActions():
+                
+                events = action.getEvents()[0]["name"]
+                for event in action.getEvents()[1:] :
+                    events += " || "+event["name"]
+                job = action.getJob()
+                if job :
+                    plantuml += state.getName()+" : **On** __" + events
+                    plantuml += "__ / //"+job+"//"
                     plantuml += "\n"
+                to = action.getState()
+                if to :
+                    plantuml += state.getName()+" --> "+to+" : "+ events +"\n"
                 plantuml += "\n"
             plantuml += "\n"
         

@@ -157,40 +157,45 @@ These files are stored into generator/output directory
     "machine" : "", # your state machine name
     
     "entry" : "", # the entry point state name
+
+    "global" : # global state action 
+    {
+        "actions" : [], #see states
+        "enter" : "", #see states 
+        "exit" : "", #see states
+    }
     
     # the states list
-    states : [
+    states : 
+    [
         { 
             "name" : "", # sthe state name
             "comment" : "", # some information on the state
 
-            # transitions describes state change on a event
-            "transitions" : [
-                # a transition
+            # describes state change and/or action on a event
+            "actions" : 
+            [
+                # an action
                 { 
                     "to" : "", # destination state name
-                    "event" : "" , # the event triggering the state change
-                    "comment" : "" # optional event description. You can set only one time the event comment
+                    "events" : 
+                    [   # the list of events triggering the state change
+                        { 
+                            "name" : "", #the event name
+                            "comment" : "" # optional event description. You can set only one time the event comment
+                        },
+                        #another event
+                        {
+                            ...
+                        }
+                    ],
+                    "job" : "" # what to do on this event
                 },
-                # another transition
+                # another action
                 {
                     ...
                 }
             ],
-
-            # actions describes state job without state change on event
-            "actions" : [
-                # an action
-                {
-                    "event" : "", # the event triggering action
-                    "action" : "", # action description
-                    "comment" : "" # optional event description. You can set only one time the event comment
-                },
-                #an other action
-                {
-                    ...
-                }
-            ]
         },
         # an other state
         {

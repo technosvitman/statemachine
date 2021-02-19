@@ -36,21 +36,9 @@ example_machine_state_t;
 typedef enum
 {
     /**
-     * @brief my seventh event
-     */
-    example_machine_event_eEVENT7 = 0,
-    /**
-     * @brief my fourth event
-     */
-    example_machine_event_eEVENT4,
-    /**
-     * @brief my sixth event
-     */
-    example_machine_event_eEVENT6,
-    /**
      * @brief my first event
      */
-    example_machine_event_eEVENT1,
+    example_machine_event_eEVENT1 = 0,
     /**
      * @brief my second event
      */
@@ -60,9 +48,21 @@ typedef enum
      */
     example_machine_event_eEVENT3,
     /**
+     * @brief my fourth event
+     */
+    example_machine_event_eEVENT4,
+    /**
      * @brief my fifth event
      */
     example_machine_event_eEVENT5,
+    /**
+     * @brief my sixth event
+     */
+    example_machine_event_eEVENT6,
+    /**
+     * @brief my seventh event
+     */
+    example_machine_event_eEVENT7,
     /**
      * @brief amount of values
      */
