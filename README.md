@@ -179,24 +179,23 @@ These files are stored into generator/output directory
                 { 
                     "to" : "", # destination state name
                     "events" : 
-		    [ 	# the list of events triggering the state change
-		    	{ 
-				"name" : "", #the event name
-				"comment" : "" # optional event description. You can set only one time the event comment
-			},
-			#another event
-			{
-			    ...
-			}
-		    ],
-		    "job" : "" # what to do on this event
+                    [ 	# the list of events triggering the state change
+                        { 
+                            "name" : "", #the event name
+                            "comment" : "" # optional event description. You can set only one time the event comment
+                        },
+                        #another event
+                        {
+                            ...
+                        }
+                    ],
+                    "job" : "" # what to do on this event
                 },
                 # another action
                 {
                     ...
                 }
             ],
-	    
         },
         # an other state
         {
