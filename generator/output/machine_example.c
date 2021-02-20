@@ -26,6 +26,7 @@ static inline void example_machine_set_state( example_machine_state_t state )
  */
 statemachineON_ENTER_CLBK(example_machine_global)
 {
+    /* Do the global on enter job */
     //TODO write your code here
 }
 
@@ -63,6 +64,7 @@ statemachineDO_JOB_CLBK(example_machine_global)
  */
 statemachineON_EXIT_CLBK(example_machine_global)
 {
+    /* Do the global on exit job */
     //TODO write your code here
 }
 
@@ -71,6 +73,7 @@ statemachineON_EXIT_CLBK(example_machine_global)
  */
 statemachineON_ENTER_CLBK(example_machine_State1)
 {
+    /* Do the enter job for state 1 */
     //TODO write your code here
 }
 
@@ -152,6 +155,7 @@ statemachineDO_JOB_CLBK(example_machine_State2)
  */
 statemachineON_EXIT_CLBK(example_machine_State2)
 {
+    /* Do the exit job for the state 2 */
     //TODO write your code here
 }
 
@@ -160,6 +164,7 @@ statemachineON_EXIT_CLBK(example_machine_State2)
  */
 statemachineON_ENTER_CLBK(example_machine_State3)
 {
+    /* Do the enter job for state 3 */
     //TODO write your code here
 }
 
@@ -202,6 +207,7 @@ statemachineDO_JOB_CLBK(example_machine_State3)
  */
 statemachineON_EXIT_CLBK(example_machine_State3)
 {
+    /* Do the exit job for state 2 */
     //TODO write your code here
 }
 

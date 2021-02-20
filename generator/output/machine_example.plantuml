@@ -1,17 +1,17 @@
 
 @startuml
 
-[*] -> example
-state example{
-example : **global entry** : __global_on_enter()__
-example : > Do the global on enter job\n
-example : **global exit** : __global_on_exit()__
-example : > Do the global on exit job\n
-example --> State4 : Event7
+[*] -> EXAMPLE
+state EXAMPLE{
+EXAMPLE : **global entry** : __global_on_enter()__
+EXAMPLE : > Do the global on enter job\n
+EXAMPLE : **global exit** : __global_on_exit()__
+EXAMPLE : > Do the global on exit job\n
+EXAMPLE --> State4 : Event7
 
-example : **On** __Event4__ / //do global event 4 job//
+EXAMPLE : **On** __Event4__ / //do global event 4 job//
 
-example : **On** __Event6__ / //do global event 6 job//
+EXAMPLE : **On** __Event6__ / //do global event 6 job//
 
 
 

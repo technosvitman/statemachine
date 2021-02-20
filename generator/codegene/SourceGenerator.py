@@ -132,9 +132,8 @@ class SourceGenerator(CodeGenerator):
     ''' 
     def __buildStateCallbacks(self, state):
         output = ""
-        self._prefix = self._machine.getName() + "_machine_"
         name = state.getName()            
-        state_name = self._prefix+name
+        state_name = self._prefix+"_"+name
                         
         if state.hasEnter() :
             output += "/**\n"
@@ -142,7 +141,7 @@ class SourceGenerator(CodeGenerator):
             output += " */\n"
             output += "statemachineON_ENTER_CLBK("+state_name+")\n"
             output += "{\n"
-            output += CodeGenerator.INDENT_CHAR+"/* "+state.getEntry()+" */\n"
+            output += CodeGenerator.INDENT_CHAR+"/* "+state.getEnter()+" */\n"
             output += CodeGenerator.INDENT_CHAR+"//TODO write your code here\n"
             output += "}\n\n"
             
@@ -166,9 +165,8 @@ class SourceGenerator(CodeGenerator):
         @return the string containing the declaration
     ''' 
     def __buildStateDeclaration(self, state):
-        output = CodeGenerator.INDENT_CHAR+"statemachineSTATE("
-        self._prefix = self._machine.getName() + "_machine_"        
-        output += self._prefix+state.getName()+", "
+        output = CodeGenerator.INDENT_CHAR+"statemachineSTATE("   
+        output += self._prefix+"_"+state.getName()+", "
         
                         
         if state.hasEnter() :
