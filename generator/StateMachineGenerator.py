@@ -1,5 +1,6 @@
 
 from machine import StateMachine
+from codegene import *
 
 import argparse
 import os
@@ -29,8 +30,9 @@ class MachineGenerator():
         assert len(self.__machine.getEvents()) != 0, 'Event list cannot be empty'
         print( self.__machine )
         
+        gene = SourceGenerator(self.__machine)
+        gene.compute(output)
         self.__buildHeader(output)
-        self.__buildSource(output)
         self.__buildUML(output)
     
     '''
