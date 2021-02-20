@@ -1,6 +1,5 @@
 
 from .CodeGenerator import CodeGenerator
-import os
 
 class SourceGenerator(CodeGenerator):
     
@@ -8,7 +7,7 @@ class SourceGenerator(CodeGenerator):
         @brief compute output state machine files from input machine
     '''
     def compute(self, basename):
-        output = open(os.path.dirname(os.path.dirname(os.path.realpath(__file__)))+"/output/"+basename+".c", 'w+')
+        output = CodeGenerator.getFile(basename+".c")
                 
         output.write("\n#include \"statemachine.h\"")
         output.write("\n#include \""+basename+".h\"")

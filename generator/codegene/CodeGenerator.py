@@ -1,5 +1,6 @@
 
 from machine import StateMachine
+import os
 
 
 class CodeGenerator():
@@ -19,3 +20,9 @@ class CodeGenerator():
     '''
     def compute(self, basename):
         pass
+        
+    '''
+        @biref get write access to output file
+    '''
+    def getFile(filename):
+        return open(os.path.dirname(os.path.dirname(os.path.realpath(__file__)))+"/output/"+filename, 'w+')
