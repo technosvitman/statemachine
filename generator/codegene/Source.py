@@ -1,7 +1,7 @@
 
 from .CodeGenerator import CodeGenerator
 
-class SourceGenerator(CodeGenerator):
+class Source(CodeGenerator):
     
     '''
         @brief compute output state machine files from input machine

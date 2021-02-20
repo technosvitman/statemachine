@@ -26,3 +26,9 @@ class CodeGenerator():
     '''
     def getFile(filename):
         return open(os.path.dirname(os.path.dirname(os.path.realpath(__file__)))+"/output/"+filename, 'w+')
+        
+    '''
+        @biref get write access to output file
+    '''
+    def getBinaryFile(filename):
+        return open(os.path.dirname(os.path.dirname(os.path.realpath(__file__)))+"/output/"+filename, 'wb+')
