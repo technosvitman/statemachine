@@ -220,7 +220,7 @@ It stored automaticaly output files with the base name of yout yaml file
 You can set a custom output name with the '-o' option
 
 ```
-    python StateMachineGenerator.py -i {path_to_your YAML file} -o {your_custom_name}
+    python SMGene.py -i {path_to_your YAML file} -o {your_custom_name}
  ```
    
 ### Example

@@ -1,6 +1,6 @@
 
-#ifndef MACHINE_EXAMPLE_H
-#define MACHINE_EXAMPLE_H
+#ifndef __MACHINE_EXAMPLE_H__
+#define __MACHINE_EXAMPLE_H__
 
 /**
  * @brief State list
@@ -74,4 +74,4 @@ example_machine_event_t;
 void example_machine_Init( void );
 void example_machine_Compute( example_machine_event_t event, void * data );
 
-#endif
+#endif // __MACHINE_EXAMPLE_H__
