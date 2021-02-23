@@ -138,6 +138,8 @@ statemachine_Compute(&my_machine, my_event_eEVENT2, NULL);
 
 This lib integrate a generator to build code basis to build your own state machine.
 
+=> [SM_Gene](https://github.com/technosvitman/sm_gene)
+
 The input is a YAML file that describe the machine.
 
 The output files are : 
@@ -227,11 +229,11 @@ You can set a custom output name with the '-o' option
 
 You can find the state machine example here : 
 
-* [description](generator/machine_example.yml)
-* [source](generator/output/machine_example.c)
-* [header](generator/output/machine_example.h)
-* [plantuml](generator/output/machine_example.plantuml)
-* [uml](generator/output/machine_example.png)
+* [description](https://github.com/technosvitman/sm_gene/blob/master/machine_example.yml)
+* [source](https://github.com/technosvitman/sm_gene/blob/master/output/machine_example.c)
+* [header](https://github.com/technosvitman/sm_gene/blob/master/output/machine_example.h)
+* [plantuml](https://github.com/technosvitman/sm_gene/blob/master/output/machine_example.plantuml)
+* [uml](https://github.com/technosvitman/sm_gene/blob/master/output/machine_example.png)
   
 
 
