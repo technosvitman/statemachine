@@ -9,6 +9,11 @@
 #include "statemachine.h"
 
 /**
+ * @brief check state id corruption
+ */
+#define statemachineCHECK_STATE(state, compl)   statemachineASSERT_CORRUPT( ( state ^ compl ) == 0xFFFFFFFF )
+
+/**
   * @brief initialize state machine
   * @param machine state machine to change
   * @param first_state the entry point state
@@ -16,13 +21,18 @@
   */
 void statemachine_Init(statemachine_t * machine, statemachine_state_id_t first_state, const statemachine_state_t * states)
 {
-	machine->new_state = first_state;
-	machine->current_state = first_state;
-	machine->current_state = first_state;
-	machine->global_on_enter = NULL;
-	machine->global_do_job = NULL;
-	machine->global_on_exit = NULL;
-	machine->states = states;
+    statemachineASSERT(machine)
+    statemachineASSERT(states)
+    
+    machine->n_state = first_state;
+    machine->c_state = first_state;
+    machine->n_n_state = ~first_state;
+    machine->n_c_state = ~first_state;
+    
+    machine->global_on_enter = NULL;
+    machine->global_do_job = NULL;
+    machine->global_on_exit = NULL;
+    machine->states = states;
 }
 
 /**
@@ -32,9 +42,10 @@ void statemachine_Init(statemachine_t * machine, statemachine_state_id_t first_s
   */
 void statemachine_Set_global(statemachine_t * machine, statemachine_state_t global_action)
 {
-	machine->global_on_enter = global_action.on_enter;
-	machine->global_do_job = global_action.do_job;
-	machine->global_on_exit = global_action.on_exit;
+    statemachineASSERT(machine)
+    machine->global_on_enter = global_action.on_enter;
+    machine->global_do_job = global_action.do_job;
+    machine->global_on_exit = global_action.on_exit;
 }
 
 /**
@@ -44,17 +55,20 @@ void statemachine_Set_global(statemachine_t * machine, statemachine_state_t glob
  */
 void statemachine_Start(statemachine_t * machine)
 {    
-	if(machine->global_on_enter != NULL)
-	{
-		machine->global_on_enter();
-	}
+    statemachineASSERT(machine)
+    if(machine->global_on_enter != NULL)
+    {
+        machine->global_on_enter();
+    }
+    
+    statemachineCHECK_STATE( machine->c_state, machine->n_c_state );
 
-	const statemachine_state_t * state = &(machine->states[machine->current_state]);
+    const statemachine_state_t * state = &(machine->states[machine->c_state]);
 
-	if(state->on_enter != NULL)
-	{
-		state->on_enter();
-	}	
+    if(state->on_enter != NULL)
+    {
+        state->on_enter();
+    }    
 }
 
 /**
@@ -64,7 +78,8 @@ void statemachine_Start(statemachine_t * machine)
   */
 void statemachine_Set_state(statemachine_t * machine, statemachine_state_id_t new_state)
 {
-    machine->new_state = new_state;
+    statemachineASSERT(machine)
+    machine->n_state = new_state;
 }
 
 /**
@@ -73,8 +88,10 @@ void statemachine_Set_state(statemachine_t * machine, statemachine_state_id_t ne
   * @return current statemachine_state_id_t
   */
 statemachine_state_id_t statemachine_Get_state(statemachine_t * machine)
-{
-    return machine->current_state;
+{    
+    statemachineASSERT(machine)
+    statemachineCHECK_STATE( machine->c_state, machine->n_c_state );
+    return machine->c_state;
 }
 
 /**
@@ -91,8 +108,14 @@ statemachine_state_id_t statemachine_Get_state(statemachine_t * machine)
   * @param data some useful data
   */
 void statemachine_Compute(statemachine_t * machine, statemachine_event_id_t event, void * data)
-{
-    const statemachine_state_t * state = &(machine->states[machine->current_state]);
+{   
+    statemachineASSERT(machine)
+    
+    statemachineCHECK_STATE( machine->c_state, machine->n_c_state );
+    
+    statemachineCHECK_STATE( machine->n_state, machine->n_n_state );
+    
+    const statemachine_state_t * state = &(machine->states[machine->c_state]);
 
     if(machine->global_do_job!=NULL)
     {
@@ -105,7 +128,7 @@ void statemachine_Compute(statemachine_t * machine, statemachine_event_id_t even
     }
 
     /* state change so compute */
-    if( machine->new_state != machine->current_state ) 
+    if( machine->n_state != machine->c_state ) 
     {
         if(machine->global_on_exit != NULL)
         {
@@ -122,7 +145,7 @@ void statemachine_Compute(statemachine_t * machine, statemachine_event_id_t even
             machine->global_on_enter();
         }
 
-        state = &(machine->states[machine->new_state]);
+        state = &(machine->states[machine->n_state]);
 
         if(state->on_enter != NULL)
         {

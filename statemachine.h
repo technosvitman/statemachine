@@ -11,6 +11,21 @@
 #define NULL ((void *)0)
 #endif
 
+/**
+ * @brief specific assert for state machine
+ * @note should be redefined for specific usage
+ */
+#ifndef statemachineASSERT
+#   define statemachineASSERT(...)     (void)
+#endif
+
+/**
+ * @brief specific assert for state machine internal memory corruption
+ * @note should be redefined for specific usage
+ */
+#ifndef statemachineASSERT_CORRUPT
+#   define statemachineASSERT_CORRUPT(...)     (void)
+#endif
 
 /**
  * @brief build state on enter callback name
@@ -71,70 +86,70 @@
  * @brief state declaration helper with Enter/Do/Exit callbacks
  */
 #define statemachineS_IDO(state)  {  \
-											statemachineON_ENTER(state), \
-											statemachineDO_JOB(state), \
-											statemachineON_EXIT(state) \
-									}
+                                            statemachineON_ENTER(state), \
+                                            statemachineDO_JOB(state), \
+                                            statemachineON_EXIT(state) \
+                                    }
 
 /**
  * @brief state declaration helper with Enter/Do callbacks
  */
 #define statemachineS_ID(state)  {  \
-											statemachineON_ENTER(state), \
-											statemachineDO_JOB(state), \
-											NULL \
-									}
+                                            statemachineON_ENTER(state), \
+                                            statemachineDO_JOB(state), \
+                                            NULL \
+                                    }
 
 /**
  * @brief state declaration helper with Do callback only
  */
 #define statemachineS_D(state)  {  \
-											NULL, \
-											statemachineDO_JOB(state), \
-											NULL \
-									}
+                                            NULL, \
+                                            statemachineDO_JOB(state), \
+                                            NULL \
+                                    }
 
 /**
  * @brief state declaration helper with Do/Exit callbacks
  */
 #define statemachineS_DO(state)  {  \
-											NULL, \
-											statemachineDO_JOB(state), \
-											statemachineON_EXIT(state) \
-									}
+                                            NULL, \
+                                            statemachineDO_JOB(state), \
+                                            statemachineON_EXIT(state) \
+                                    }
 
 /**
  * @brief state declaration helper with Enter/Exit callbacks
  */
 #define statemachineS_IO(state)  {  \
-											statemachineON_ENTER(state), \
-											NULL, \
-											statemachineON_EXIT(state) \
-									}
+                                            statemachineON_ENTER(state), \
+                                            NULL, \
+                                            statemachineON_EXIT(state) \
+                                    }
 /**
  * @brief state declaration helper with Enter callback only
  */
 #define statemachineS_I(state)  {  \
-											statemachineON_ENTER(state), \
-											NULL, \
-											NULL \
-									}
+                                            statemachineON_ENTER(state), \
+                                            NULL, \
+                                            NULL \
+                                    }
 /**
  * @brief state declaration helper with Exit callback only
  */
 #define statemachineS_O(state)  {  \
-											NULL, \
-											NULL, \
-											statemachineON_EXIT(state) \
-									}
+                                            NULL, \
+                                            NULL, \
+                                            statemachineON_EXIT(state) \
+                                    }
 /**
  * @brief state declaration helper with no callbacks
  */
 #define statemachineS_(state)  {  \
-											NULL, \
-											NULL, \
-											NULL \
-									}
+                                            NULL, \
+                                            NULL, \
+                                            NULL \
+                                    }
 
 /**
  * @brief state declaration helper
@@ -202,11 +217,19 @@ typedef struct
     /**
       * current machine state
       */
-    statemachine_state_id_t current_state;
+    statemachine_state_id_t c_state;
     /**
       * next state requested
       */
-    statemachine_state_id_t new_state;
+    statemachine_state_id_t n_state;
+    /**
+      * current machine state inverted
+      */
+    statemachine_state_id_t n_c_state;
+    /**
+      * next state requested inverted
+      */
+    statemachine_state_id_t n_n_state;
     /**
       * global on enter action
       */
