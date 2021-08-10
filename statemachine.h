@@ -16,7 +16,7 @@
  * @note should be redefined for specific usage
  */
 #ifndef statemachineASSERT
-#   define statemachineASSERT(...)     (void)
+#   define statemachineASSERT(...)     		((void)0)
 #endif
 
 /**
@@ -24,7 +24,7 @@
  * @note should be redefined for specific usage
  */
 #ifndef statemachineASSERT_CORRUPT
-#   define statemachineASSERT_CORRUPT(...)     (void)
+#   define statemachineASSERT_CORRUPT(...)  ((void)0)
 #endif
 
 /**
