@@ -234,6 +234,23 @@ You can find the state machine example here :
 * [header](https://github.com/technosvitman/sm_gene/blob/master/output/machine_example.h)
 * [plantuml](https://github.com/technosvitman/sm_gene/blob/master/output/machine_example.plantuml)
 * [uml](https://github.com/technosvitman/sm_gene/blob/master/output/machine_example.png)
+
+## Safety behaviour
+
+### Memory corruption
+
+statemachine library check internaly if any RAM corruption occure on the working structure.
+It uses XOR method on direct variable and its complementary. 
+
+The maccro *statemachineASSERT_CORRUPT* should be redefined to catch the corruption. 
+It takes a condition which should be True on no corruption and False on failure
+
+### Bad parameters check
+
+statemachine library check with assertion all critucal inputs like pointers.
+
+The maccro *statemachineASSERT_CORRUPT* should be redefined to catch the error. 
+It takes a condition which should be True on success and False on failure
   
 
 
