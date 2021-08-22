@@ -1,0 +1,93 @@
+{
+    "machine": "test",
+    "entry": "State1",
+    "global": 
+        {
+            "actions": 
+                [
+                ],
+            "enter": "catch global on enter",
+            "exit": "catch global on exit",
+        },
+    "states": 
+        [
+            {
+                "name": "State1",
+                "comment": "",
+                "actions": 
+                    [
+                        {
+                            "job": "",
+                            "to": "State2",
+                            "conds": 
+                                [
+                                    {
+                                        "event": "Event_1_2",
+                                        "cond": "",
+                                        "comment": "test event for transition to state 2",
+                                    },
+                                    {
+                                        "event": "Event1",
+                                        "cond": "condition2",
+                                        "comment": "Conditional test event",
+                                    },
+                                ],
+                        },
+                        {
+                            "job": "",
+                            "to": "State3",
+                            "conds": 
+                                [
+                                    {
+                                        "event": "Event1",
+                                        "cond": "condition3",
+                                    },
+                                ],
+                        },
+                    ],
+                "enter": "catch state1 on enter",
+                "exit": "catch state1 on exit",
+            },
+            {
+                "name": "State2",
+                "comment": "",
+                "actions": 
+                    [
+                        {
+                            "job": "",
+                            "to": "State1",
+                            "conds": 
+                                [
+                                    {
+                                        "event": "Event2",
+                                        "cond": "condition1",
+                                        "comment": "Conditional test event from state 2",
+                                    },
+                                ],
+                        },
+                        {
+                            "job": "",
+                            "to": "State3",
+                            "conds": 
+                                [
+                                    {
+                                        "event": "Event2",
+                                        "cond": "condition3",
+                                    },
+                                ],
+                        },
+                    ],
+                "enter": "catch state2 on enter",
+                "exit": "catch state2 on exit",
+            },
+            {
+                "name": "State3",
+                "comment": "",
+                "actions": 
+                    [
+                    ],
+                "enter": "catch state3 on enter",
+                "exit": "catch state3 on enter",
+            },
+        ],
+}
