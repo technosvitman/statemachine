@@ -113,8 +113,6 @@ void statemachine_Compute(statemachine_t * machine, statemachine_event_id_t even
     
     statemachineCHECK_STATE( machine->c_state, machine->n_c_state );
     
-    statemachineCHECK_STATE( machine->n_state, machine->n_n_state );
-    
     const statemachine_state_t * state = &(machine->states[machine->c_state]);
 
     if(machine->global_do_job!=NULL)
@@ -126,6 +124,10 @@ void statemachine_Compute(statemachine_t * machine, statemachine_event_id_t even
     {
         state->do_job(event, data);
     }
+    
+    statemachineCHECK_STATE( machine->c_state, machine->n_c_state );
+    
+    statemachineCHECK_STATE( machine->n_state, machine->n_n_state );
 
     /* state change so compute */
     if( machine->n_state != machine->c_state ) 
