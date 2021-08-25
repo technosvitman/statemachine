@@ -80,6 +80,7 @@ void statemachine_Set_state(statemachine_t * machine, statemachine_state_id_t ne
 {
     statemachineASSERT(machine);
     machine->n_state = new_state;
+    machine->n_n_state = ~new_state;
 }
 
 /**

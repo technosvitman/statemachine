@@ -101,7 +101,7 @@ class TestCurrentStateMemoryFailure(PycTestCase):
         self.c_test_machine_Compute( \
                 self.c_test_machine_event_eEVENT_1_2, \
                 self.NULL())
-        self.assertEqual(self.c_corruption[0], 1)
+        self.assertEqual(self.c_corruption[0], 2)
         
 '''
     @see PycTestCase
@@ -113,18 +113,18 @@ class TestNewStateMemoryFailure(PycTestCase):
     def runTest(self):
         self.c_test_machine_Init()
         
-        self.c_statemachine_Set_state(\
-                self.addressof(self.c_test_machine),\
-                self.c_test_machine_state_eSTATE2)
-        
-        self.c_test_machine.n_state = self.c_test_machine_state_eSTATE3
+        self.c_test_machine.n_n_state = self.c_test_machine_state_eSTATE3
         
         self.c_corruption[0] = 0
         self.assertEqual(self.c_corruption[0], 0)
         
         self.c_test_machine_Compute( \
-                self.c_test_machine_event_eEVENT_1_2, \
+                self.c_test_machine_event_eEVENT2, \
                 self.NULL())
+                
+        self.assertEqual(getState(self), \
+                self.c_test_machine_state_eSTATE1)
+                
         self.assertEqual(self.c_corruption[0], 1)
                 
  
