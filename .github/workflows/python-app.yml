@@ -27,7 +27,7 @@ jobs:
       run: |
         python test_machine.py -b        
   test:
-
+    needs : build
     runs-on: ubuntu-latest
 
     steps:
