@@ -183,8 +183,10 @@ class TestMachine:
         self.__loader.appendTest(TestStartAndTransition())  
         self.__loader.appendTest(TestConditionalTransition())  
         self.__loader.appendTest(TestCurrentStateMemoryFailure())  
-        self.__loader.appendTest(TestNewStateMemoryFailure())     
-        self.__loader.run()       
+        self.__loader.appendTest(TestNewStateMemoryFailure()) 
+            
+        with open('test_report.txt', 'w') as f:
+            self.__loader.run(f)       
         
         
 parser = argparse.ArgumentParser(description='Statemachine tester')

@@ -44,3 +44,8 @@ jobs:
     - name: Test with integrated tester
       run: |
         python test_machine.py -u
+    - name: Archive result
+      uses: actions/upload-artifact@v2
+      with:
+        name: artifacts
+        path: test_report.txt
