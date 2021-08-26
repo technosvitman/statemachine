@@ -1,3 +1,4 @@
+pyaml
 cffi
 pycparser
 pycparser_fake_libc
