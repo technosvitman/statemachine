@@ -7,7 +7,7 @@ import re
 from pyctest import *
 
 def getState(test):
-    return test.c_test_machine.c_state
+    return test.c_test_machine.current_state
 
 '''
     @see PycTestCase
@@ -93,7 +93,7 @@ class TestCurrentStateMemoryFailure(PycTestCase):
     def runTest(self):
         self.c_test_machine_Init()
         
-        self.c_test_machine.c_state = self.c_test_machine_state_eSTATE2
+        self.c_test_machine.current_state = self.c_test_machine_state_eSTATE2
         
         self.c_corruption[0] = 0
         self.assertEqual(self.c_corruption[0], 0)
@@ -113,7 +113,7 @@ class TestNewStateMemoryFailure(PycTestCase):
     def runTest(self):
         self.c_test_machine_Init()
         
-        self.c_test_machine.n_n_state = self.c_test_machine_state_eSTATE3
+        self.c_test_machine.compl_new_state = self.c_test_machine_state_eSTATE3
         
         self.c_corruption[0] = 0
         self.assertEqual(self.c_corruption[0], 0)

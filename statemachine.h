@@ -217,19 +217,19 @@ typedef struct
     /**
       * current machine state
       */
-    statemachine_state_id_t c_state;
+    statemachine_state_id_t current_state;
     /**
       * next state requested
       */
-    statemachine_state_id_t n_state;
+    statemachine_state_id_t new_state;
     /**
-      * current machine state inverted
+      * current machine state complement
       */
-    statemachine_state_id_t n_c_state;
+    statemachine_state_id_t compl_current_state;
     /**
-      * next state requested inverted
+      * next state requested complement
       */
-    statemachine_state_id_t n_n_state;
+    statemachine_state_id_t compl_new_state;
     /**
       * global on enter action
       */

@@ -24,10 +24,10 @@ void statemachine_Init(statemachine_t * machine, statemachine_state_id_t first_s
     statemachineASSERT(machine);
     statemachineASSERT(states);
     
-    machine->n_state = first_state;
-    machine->c_state = first_state;
-    machine->n_n_state = ~first_state;
-    machine->n_c_state = ~first_state;
+    machine->current_state = first_state;
+    machine->new_state = first_state;
+    machine->compl_current_state = ~first_state;
+    machine->compl_new_state = ~first_state;
     
     machine->global_on_enter = NULL;
     machine->global_do_job = NULL;
@@ -61,9 +61,9 @@ void statemachine_Start(statemachine_t * machine)
         machine->global_on_enter();
     }
     
-    statemachineCHECK_STATE( machine->c_state, machine->n_c_state );
+    statemachineCHECK_STATE( machine->current_state, machine->compl_current_state );
 
-    const statemachine_state_t * state = &(machine->states[machine->c_state]);
+    const statemachine_state_t * state = &(machine->states[machine->current_state]);
 
     if(state->on_enter != NULL)
     {
@@ -74,13 +74,13 @@ void statemachine_Start(statemachine_t * machine)
 /**
   * @brief set next state
   * @param machine state machine to change
-  * @param new_state the new state id
+  * @param current_state the new state id
   */
-void statemachine_Set_state(statemachine_t * machine, statemachine_state_id_t new_state)
+void statemachine_Set_state(statemachine_t * machine, statemachine_state_id_t current_state)
 {
     statemachineASSERT(machine);
-    machine->n_state = new_state;
-    machine->n_n_state = ~new_state;
+    machine->new_state = current_state;
+    machine->compl_new_state = ~current_state;
 }
 
 /**
@@ -91,8 +91,8 @@ void statemachine_Set_state(statemachine_t * machine, statemachine_state_id_t ne
 statemachine_state_id_t statemachine_Get_state(statemachine_t * machine)
 {    
     statemachineASSERT(machine);
-    statemachineCHECK_STATE( machine->c_state, machine->n_c_state );
-    return machine->c_state;
+    statemachineCHECK_STATE( machine->current_state, machine->compl_current_state );
+    return machine->current_state;
 }
 
 /**
@@ -112,9 +112,9 @@ void statemachine_Compute(statemachine_t * machine, statemachine_event_id_t even
 {   
     statemachineASSERT(machine);
     
-    statemachineCHECK_STATE( machine->c_state, machine->n_c_state );
+    statemachineCHECK_STATE( machine->current_state, machine->compl_current_state );
     
-    const statemachine_state_t * state = &(machine->states[machine->c_state]);
+    const statemachine_state_t * state = &(machine->states[machine->current_state]);
 
     if(machine->global_do_job!=NULL)
     {
@@ -126,12 +126,12 @@ void statemachine_Compute(statemachine_t * machine, statemachine_event_id_t even
         state->do_job(event, data);
     }
     
-    statemachineCHECK_STATE( machine->c_state, machine->n_c_state );
+    statemachineCHECK_STATE( machine->current_state, machine->compl_current_state );
     
-    statemachineCHECK_STATE( machine->n_state, machine->n_n_state );
+    statemachineCHECK_STATE( machine->new_state, machine->compl_new_state );
 
     /* state change so compute */
-    if( machine->n_state != machine->c_state ) 
+    if( machine->new_state != machine->current_state ) 
     {
         if(machine->global_on_exit != NULL)
         {
@@ -148,15 +148,15 @@ void statemachine_Compute(statemachine_t * machine, statemachine_event_id_t even
             machine->global_on_enter();
         }
 
-        state = &(machine->states[machine->n_state]);
+        state = &(machine->states[machine->new_state]);
 
         if(state->on_enter != NULL)
         {
             state->on_enter();
         }
 
-        machine->c_state = machine->n_state;
-        machine->n_c_state = machine->n_n_state;
+        machine->current_state = machine->new_state;
+        machine->compl_current_state = machine->compl_new_state;
     }
 }
 
