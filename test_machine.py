@@ -185,8 +185,7 @@ class TestMachine:
         self.__loader.appendTest(TestCurrentStateMemoryFailure())  
         self.__loader.appendTest(TestNewStateMemoryFailure()) 
             
-        with open('test_report.txt', 'w') as f:
-            self.__loader.run(f)       
+        self.__loader.run()       
         
         
 parser = argparse.ArgumentParser(description='Statemachine tester')
