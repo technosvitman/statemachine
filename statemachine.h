@@ -241,7 +241,7 @@ typedef struct
     /**
       * mutex
       */
-    uint32_t mutex;
+    int mutex;
     /**
       * current machine state complement
       */
