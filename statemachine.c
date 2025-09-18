@@ -23,7 +23,7 @@ void statemachine_Init(statemachine_t * machine, statemachine_state_id_t first_s
 {
     statemachineASSERT(machine);
     statemachineASSERT(states);
-    
+
     machine->current_state = first_state;
     machine->new_state = first_state;
     machine->compl_current_state = ~first_state;
@@ -33,6 +33,7 @@ void statemachine_Init(statemachine_t * machine, statemachine_state_id_t first_s
     machine->global_do_job = NULL;
     machine->global_on_exit = NULL;
     machine->states = states;
+    machine->mutex = 0xFFFFFFFF;
 }
 
 /**
@@ -69,6 +70,9 @@ void statemachine_Start(statemachine_t * machine)
     {
         state->on_enter();
     }    
+    statemachineENTER_ATOMIC();
+    machine->mutex=0;
+    statemachineEXIT_ATOMIC();
 }
 
 /**
@@ -107,11 +111,21 @@ statemachine_state_id_t statemachine_Get_state(statemachine_t * machine)
   * @param machine state machine to compute
   * @param event the event id to send to state to perform changes
   * @param data some useful data
+  * @return 0 on success, event complement on mutex
   */
-void statemachine_Compute(statemachine_t * machine, statemachine_event_id_t event, void * data)
+int statemachine_Compute(statemachine_t * machine, statemachine_event_id_t event, void * data)
 {   
     statemachineASSERT(machine);
     
+    statemachineENTER_ATOMIC();
+    if(machine->mutex)
+    {
+    	statemachineEXIT_ATOMIC();
+    	return machine->mutex;
+    }
+    machine->mutex=~event;
+	statemachineEXIT_ATOMIC();
+
     statemachineCHECK_STATE( machine->current_state, machine->compl_current_state );
     
     const statemachine_state_t * state = &(machine->states[machine->current_state]);
@@ -158,6 +172,8 @@ void statemachine_Compute(statemachine_t * machine, statemachine_event_id_t even
         machine->current_state = machine->new_state;
         machine->compl_current_state = machine->compl_new_state;
     }
+    machine->mutex=0;
+    return 0;
 }
 
 

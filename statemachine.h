@@ -12,6 +12,22 @@
 #endif
 
 /**
+ * @brief specific enter atomic compute
+ * @note should be redefined for specific usage
+ */
+#ifndef statemachineENTER_ATOMIC
+#   define statemachineENTER_ATOMIC()     		((void)0)
+#endif
+/**
+ * @brief specific exit atomic compute
+ * @note should be redefined for specific usage
+ */
+#ifndef statemachineEXIT_ATOMIC
+#   define statemachineEXIT_ATOMIC()     		((void)0)
+#endif
+
+
+/**
  * @brief specific assert for state machine
  * @note should be redefined for specific usage
  */
@@ -223,6 +239,10 @@ typedef struct
       */
     statemachine_state_id_t new_state;
     /**
+      * mutex
+      */
+    uint32_t mutex;
+    /**
       * current machine state complement
       */
     statemachine_state_id_t compl_current_state;
@@ -259,6 +279,6 @@ void statemachine_Set_state(statemachine_t * machine, statemachine_state_id_t ne
 
 statemachine_state_id_t statemachine_Get_state(statemachine_t * machine);
 
-void statemachine_Compute(statemachine_t * machine, statemachine_event_id_t event, void * data);
+int statemachine_Compute(statemachine_t * machine, statemachine_event_id_t event, void * data);
 
 #endif
